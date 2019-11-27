@@ -7,9 +7,9 @@
 
 void generate_image(void);
 void generate_row(int);
-void mask_canvas(uint8_t, uint8_t, int, int);
+void mask_canvas(uint8_t, int, int, int, int, uint8_t(*)[]);
 void clear_display();
 
-void draw_arrow();
+void draw_arrow(int SelRow);
 
 #endif /* MATRIX_H_ */
