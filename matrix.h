@@ -1,15 +1,18 @@
-
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
+#include "init.h"
 #include "stm32f0xx.h"
 #include "stm32f0_discovery.h"
 
 void generate_image(void);
 void generate_row(int);
-void mask_canvas(uint8_t, int, int, int, int, uint8_t(*)[]);
+void mask_canvas(int, int, int, int, uint8_t(*)[]);
 void clear_display();
 
-void draw_arrow(int SelRow);
+void draw_title();
+void draw_background();
+void draw_bird();
+void draw_pipe(int);
 
 #endif /* MATRIX_H_ */

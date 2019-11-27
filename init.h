@@ -26,10 +26,14 @@
 #define ROW 32
 #define COL 64
 
-#define RED 1
-#define BLUE 2
-#define GREEN 4
-#define WHITE 7
+#define R 1
+#define B 2
+#define G 4
+#define W 7
+#define BK 0
+#define PU 3
+#define SKY 6
+#define Y 5
 
 void init_gpio(void);
 void nano_wait(unsigned int);
