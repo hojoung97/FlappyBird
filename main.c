@@ -20,11 +20,11 @@ int main(void)
     // initialize the matrix pins with port C
     init_gpio();
 
+
     while (1){
     	//draw_title();
     	draw_background();
-    	//draw_bird();
+    	draw_bird(1);
     	draw_pipe(0);
-
     }
 }

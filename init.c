@@ -3,11 +3,11 @@
 #include "stm32f0_discovery.h"
 
 void init_gpio() {
-    // clock to GPIOC
-    RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
-    // use from PC0 ~ PC13 for pins on our matrix
-    GPIOC->MODER &= ~0b1111111111111111111111111111;	// clear
-    GPIOC->MODER |= 0b0101010101010101010101010101;		// output mode
+	// clock to GPIOC
+	RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
+	// use from PC0 ~ PC13 for pins on our matrix
+	GPIOC->MODER &= ~0b1111111111111111111111111111;	// clear
+	GPIOC->MODER |= 0b0101010101010101010101010101;		// output mode
 }
 
 void nano_wait(unsigned int n) {
