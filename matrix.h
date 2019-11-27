@@ -13,6 +13,7 @@ void clear_display();
 void draw_title();
 void draw_background();
 void draw_bird(int);
-void draw_pipe(int);
+void draw_pipe(int, int);
+//void clear_pipe(double, double, double);
 
 #endif /* MATRIX_H_ */

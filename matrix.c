@@ -516,7 +516,7 @@ void draw_background() {
 	int height = (int)sizeof(background) / sizeof(background[0]);
 	int width = (int)sizeof(background[0]) / sizeof(background[0][0]);
 	mask_canvas(56, 0, height, width, background);
-	generate_image();
+	//generate_image();
 }
 
 void draw_bird(int index) {
@@ -526,18 +526,88 @@ void draw_bird(int index) {
 	//generate_image();
 
 	mask_canvas(31, 7, height, width, bird[index]);
-	generate_image();
+	//generate_image();
 
 }
 
-void draw_pipe(int index) {
+void bird_fly(){
+
+}
+
+void draw_pipe(int index, int col) {
 	int height = (int)sizeof(pipes_top[index]) / sizeof(pipes_top[index][0]);
 	int width = (int)sizeof(pipes_top[index][0]) / sizeof(pipes_top[index][0][0]);
-	mask_canvas(0, 20, height, width, pipes_top[index]);
+	mask_canvas(0, col, height, width, pipes_top[index]);
 	generate_image();
 
 	height = (int)sizeof(pipes_bot[index]) / sizeof(pipes_bot[index][0]);
 	width = (int)sizeof(pipes_bot[index][0]) / sizeof(pipes_bot[index][0][0]);
-	mask_canvas(32, 20, height, width, pipes_bot[index]);
-	generate_image();
+	mask_canvas(32, col, height, width, pipes_bot[index]);
+	//generate_image();
 }
+
+void init_timer6(){
+	RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+	TIM6->PSC = 2 - 1;
+	TIM6->ARR = 24 - 1;
+	TIM6->DIER |= TIM_DIER_UIE;
+	NVIC->ISER[0] = 1 << TIM6_DAC_IRQn;
+	TIM6->CR1 |= TIM_CR1_CEN;
+}
+
+double i = 63;
+
+void TIM6_DAC_IRQHandler(){
+	//Acknowledge the interrupt
+	TIM6->SR &= ~TIM_SR_UIF;
+
+	init_timer3();
+}
+
+void init_timer3(){
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+	TIM3->PSC = 10 - 1;
+	TIM3->ARR = 48 - 1;
+	TIM3->DIER |= TIM_DIER_UIE;
+	NVIC->ISER[0] = 1 << TIM3_IRQn;
+	TIM3->CR1 |= TIM_CR1_CEN;
+}
+
+void TIM3_IRQHandler(){
+	TIM3->SR &= ~TIM_SR_UIF;
+	//double j, k;
+
+	draw_pipe(0, i--);
+	if(i == 0){
+		i = 63;
+	}
+	generate_image();
+
+	/*
+	if(i < 43){
+		j = i + 21;
+	}
+	draw_pipe(1, j);
+	j -= 0.125;
+	generate_image();
+	if(i < 23){
+		k = i + 42;
+	}
+	draw_pipe(0, k);
+	k -= 0.125;
+	generate_image();
+	*/
+
+	//clear_pipe(i, j, k);
+	//clear_display();
+}
+
+/*void clear_pipe(double i, double j, double k){
+	if(i > 50 || j > 50 || k > 50){
+		for(int a = 0; a < 13; a++){
+			for(int b = 0; b < ROW; b++){
+				canvas[b][a] = 0;
+			}
+		}
+	}
+}*/

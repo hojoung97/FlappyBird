@@ -2,7 +2,7 @@
  * init.h
  *
  *  Created on: 2019. 11. 26.
- *      Author: ÀåÈ£Áß
+ *      Author: ï¿½ï¿½È£ï¿½ï¿½
  */
 
 #ifndef INIT_H_
@@ -37,5 +37,7 @@
 
 void init_gpio(void);
 void nano_wait(unsigned int);
+void init_timer6(void);
+void init_timer3(void);
 
 #endif /* INIT_H_ */
