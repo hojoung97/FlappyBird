@@ -509,7 +509,7 @@ void mask_canvas(int selRow, int selCol, int imageHeight, int imageWidth, uint8_
                     canvas[tarRow][tarCol] &= ~clearMask;
 
                     // draw the image
-                    canvas[tarRow][tarCol] = imgptr[i][j] << colorShift;
+                    canvas[tarRow][tarCol] |= imgptr[i][j] << colorShift;
                 }
             }
         }
@@ -594,12 +594,16 @@ void init_timer6(){
 	NVIC->ISER[0] = 1 << TIM6_DAC_IRQn;
 }
 
-double i = 63;
+short i = 63;
+short j = 89;
+short k = 115;
 
 void TIM6_DAC_IRQHandler(){
 	TIM6->CR1 &= ~TIM_CR1_CEN;
 	//Acknowledge the interrupt
 	generate_image();
+	draw_bird(rand() % 2 + 1);
+	draw_background();
 	if ((TIM6->SR & TIM_SR_UIF) != 0) {
 		TIM6->SR &= ~TIM_SR_UIF;
 	}
@@ -616,13 +620,34 @@ void init_timer3(){
 	NVIC->ISER[0] = 1 << TIM3_IRQn;
 }
 
+uint8_t a = 1;
+uint8_t b = 0;
+uint8_t c = 1;
+
 void TIM3_IRQHandler(){
 	TIM3->CR1 &= ~TIM_CR1_CEN;
-	//double j, k;
+	if(i == 63 && j == 89 && k == 115){
+		a = rand() % 2;
+		b = rand() % 2;
+		c = rand() % 2;
+	}
 
-	draw_pipe(0, i--);
+	draw_pipe(a, i--);
 	if (i == -14) {
 		i = 63;
+		a = rand() % 2;
+	}
+
+	draw_pipe(b, j--);
+	if (j == -14) {
+		j = 63;
+		b = rand() % 2;
+	}
+
+	draw_pipe(c, k--);
+	if (k == -14) {
+		k = 63;
+		c = rand() % 2;
 	}
 
 	if ((TIM3->SR & TIM_SR_UIF) != 0) {
@@ -630,13 +655,3 @@ void TIM3_IRQHandler(){
 	}
 	TIM3->CR1 |= TIM_CR1_CEN;
 }
-
-/*void clear_pipe(double i, double j, double k){
-	if(i > 50 || j > 50 || k > 50){
-		for(int a = 0; a < 13; a++){
-			for(int b = 0; b < ROW; b++){
-				canvas[b][a] = 0;
-			}
-		}
-	}
-}*/
