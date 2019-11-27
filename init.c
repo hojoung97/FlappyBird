@@ -8,6 +8,11 @@ void init_gpio() {
 	// use from PC0 ~ PC13 for pins on our matrix
 	GPIOC->MODER &= ~0b1111111111111111111111111111;	// clear
 	GPIOC->MODER |= 0b0101010101010101010101010101;		// output mode
+	//clock to GPIOA
+	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+	GPIOA->MODER &= ~0x30000;
+	GPIOA->PUPDR &= ~0x30000;
+	GPIOA->PUPDR |= 0x20000;
 }
 
 void nano_wait(unsigned int n) {
