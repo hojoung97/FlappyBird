@@ -112,22 +112,7 @@ uint8_t sky[ROW][COL] =
 		{SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY}
 };
 */
-/*
-uint8_t char_blank[11][7] =
-        {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0}
-        };
-*/
+
 uint8_t char_f[11][7] =
         {
         		{0, 0, 0, 0, 0, 0, 0},
@@ -519,7 +504,6 @@ uint8_t pipes_bot[2][25][12] =
 		}
 };
 
-
 void generate_row(short curRow) {
     for (short j = 0; j < COL; j++) {
         // clear all color data before setting new color values
@@ -533,7 +517,7 @@ void generate_row(short curRow) {
         GPIOC->BRR = 1<<CLK;	// clear
     }
 
-    // turn on OE the LAT
+    // turn on OE then LAT
     GPIOC->BSRR = 1<<OE;		//OE;
     GPIOC->BSRR = 1<<LAT;		//LAT;
 
@@ -577,7 +561,6 @@ void mask_canvas(short selRow, short selCol, short imageHeight, short imageWidth
             }
 
             for (short j = 0; j < imageWidth; j++) {
-
                 short tarCol = selCol + j;
 
                 // check if horizontally out of dimension
@@ -617,15 +600,15 @@ void draw_title() {
 }
 
 void draw_gameover() {
-	mask_canvas(3, 3, 11, 7, char_g); //G
-	mask_canvas(5, 8, 11, 7, char_a); //A
-	mask_canvas(3, 13, 11, 7, char_m); //M
-	mask_canvas(9, 18, 11, 7, char_e); //E
+	mask_canvas(3, 7, 11, 7, char_g); //G
+	mask_canvas(5, 12, 11, 7, char_a); //A
+	mask_canvas(3, 17, 11, 7, char_m); //M
+	mask_canvas(9, 22, 11, 7, char_e); //E
 	//mask_canvas(9, 24, 11, 7, char_blank); //space
-	mask_canvas(7, 30, 11, 7, char_o); //O
-	mask_canvas(4, 35, 11, 7, char_v); //V
-	mask_canvas(5, 41, 11, 7, char_e); //E
-	mask_canvas(5, 45, 11, 7, char_r); //R
+	mask_canvas(7, 34, 11, 7, char_o); //O
+	mask_canvas(4, 39, 11, 7, char_v); //V
+	mask_canvas(5, 45, 11, 7, char_e); //E
+	mask_canvas(5, 49, 11, 7, char_r); //R
 }
 
 void draw_background() {
@@ -685,7 +668,6 @@ short k = 115;
 
 void TIM6_DAC_IRQHandler(){
 	TIM6->CR1 &= ~TIM_CR1_CEN;
-	//Acknowledge the interrupt
 	generate_image();
 
 	if ((TIM6->SR & TIM_SR_UIF) != 0) {
@@ -737,9 +719,7 @@ void TIM3_IRQHandler(){
 
 	curheight += 2;
 	draw_bird(1, curheight);
-	if(curheight >= 52){
-		gameover();
-	}
+
 	bird_fly(curheight);
 	draw_background();
 
@@ -750,12 +730,14 @@ void TIM3_IRQHandler(){
 }
 
 void gameover(){
-	RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
-	RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
-	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+	if(curheight >= 50){
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
+		if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+			RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+			RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+		}
+		draw_gameover();
+		generate_image();
 	}
-	draw_gameover();
-	generate_image();
 }
