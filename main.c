@@ -59,7 +59,6 @@ int main(void)
 	init_timer3();
     while(1){
     	bird_fly();
-    	gameover();
     	//nano_wait(100000000);
     }
 }

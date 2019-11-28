@@ -522,7 +522,7 @@ void generate_row(short curRow) {
     GPIOC->BSRR = 1<<LAT;		//LAT;
 
     // clear the target row value and set it to current row value
-    GPIOC->BRR = 0b11111<<PINA;	//SE0;
+    GPIOC->BRR = 0b111111<<PINA;	//SE0;
     GPIOC->BSRR = curRow<<PINA;	//SE0);
 
     // turn off LAT then OE
@@ -541,7 +541,6 @@ void generate_image() {
 }
 
 void mask_canvas(short selRow, short selCol, short imageHeight, short imageWidth, uint8_t (*imgptr)[imageWidth]) {
-
     for (short i = 0; i < imageHeight; i++) {
 
         // targeted values
@@ -553,7 +552,6 @@ void mask_canvas(short selRow, short selCol, short imageHeight, short imageWidth
 
         // check if vertically out of dimension
         if (((tarRow) < (ROW*2)) && ((tarRow) >= 0)) {
-
             if ((tarRow) >= ROW) {
                 tarRow -= ROW;
                 colorShift = 3;
@@ -610,6 +608,7 @@ void draw_gameover() {
 	mask_canvas(5, 45, 11, 7, char_e); //E
 	mask_canvas(5, 49, 11, 7, char_r); //R
 }
+short curheight = 31;
 
 void draw_background() {
 	short height = (short)sizeof(background) / sizeof(background[0]);
@@ -618,25 +617,34 @@ void draw_background() {
 }
 
 void draw_bird(short index, short curheight) {
+	short isgameover = 0;
+	if(canvas[curheight][20] == G || canvas[curheight][27] == G || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+		isgameover = 1;
+	}
 	short height = (short)sizeof(bird[index]) / sizeof(bird[index][0]);
 	short width = (short)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
 
 	mask_canvas(curheight - 2, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[index]);
+
+	gameover(isgameover);
 }
-short curheight = 31;
 
 void bird_fly(){
 	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		nano_wait(40000000);
-		TIM3->CR1 &= ~TIM_CR1_CEN;
+		nano_wait(30000000);
+		short isgameover = 0;
 		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
 		curheight -= 4;
+		if(canvas[curheight][20] == G || canvas[curheight][27] == G || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+			isgameover = 1;
+		}
 
 		mask_canvas(curheight + 4, 20, height, width, bird[0]);
 		mask_canvas(curheight, 20, height, width, bird[2]);
-		TIM3->CR1 |= TIM_CR1_CEN;
+
+		gameover(isgameover);
 	}
 }
 
@@ -679,7 +687,7 @@ void TIM6_DAC_IRQHandler(){
 
 void init_timer3(){
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-	TIM3->PSC = 24000 - 1;
+	TIM3->PSC = 12000 - 1;
 	TIM3->ARR = 1000 - 1;
 	TIM3->DIER |= TIM_DIER_UIE;
 	TIM3->CR1 |= 2 << 8;
@@ -729,14 +737,14 @@ void TIM3_IRQHandler(){
 	TIM3->CR1 |= TIM_CR1_CEN;
 }
 
-void gameover(){
-	if(curheight >= 50){
+void gameover(short flag){
+	if(flag == 1){
 		RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
 		RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
-		if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+		/*if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
 			RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 			RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
-		}
+		}*/
 		draw_gameover();
 		generate_image();
 	}

@@ -9,12 +9,12 @@ void generate_image(void);
 void generate_row(short);
 void mask_canvas(short, short, short, short, uint8_t(*)[]);
 void clear_display();
-void gameover();
+void gameover(short);
 void draw_title();
 void draw_background();
 void draw_bird(short, short);
 void draw_pipe(short, short);
 void bird_fly();
-//void clear_pipe(double, double, double);
+short collision();
 
 #endif /* MATRIX_H_ */
