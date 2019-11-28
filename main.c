@@ -17,16 +17,13 @@
 
 int main(void)
 {
+	//short
     // initialize the matrix pins with port C
     init_gpio();
     init_timer6();
     init_timer3();
-
-
-    while (1){
-    	//draw_title();
-    	//draw_background();
-    	//draw_bird(1);
-    	//draw_pipe(0);
+    while(1){
+    	bird_fly();
+    	//nano_wait(100000000);
     }
 }

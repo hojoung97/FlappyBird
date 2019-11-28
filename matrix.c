@@ -555,19 +555,28 @@ void draw_background() {
 	//generate_image();
 }
 
-void draw_bird(int index) {
+void draw_bird(int index, short curheight) {
 	int height = (int)sizeof(bird[index]) / sizeof(bird[index][0]);
 	int width = (int)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
-	//mask_canvas(31, 7, height, width, bird1);
-	//generate_image();
 
-	mask_canvas(31, 7, height, width, bird[index]);
+	mask_canvas(curheight - 2, 20, height, width, bird[0]);
+	mask_canvas(curheight, 20, height, width, bird[index]);
 	//generate_image();
-
 }
+short curheight = 31;
 
 void bird_fly(){
+	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+		nano_wait(40000000);
+		TIM3->CR1 &= ~TIM_CR1_CEN;
+		int height = (int)sizeof(bird[2]) / sizeof(bird[2][0]);
+		int width = (int)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
+		curheight -= 4;
 
+		mask_canvas(curheight + 4, 20, height, width, bird[0]);
+		mask_canvas(curheight, 20, height, width, bird[2]);
+		TIM3->CR1 |= TIM_CR1_CEN;
+	}
 }
 
 void draw_pipe(int index, int col) {
@@ -602,18 +611,18 @@ void TIM6_DAC_IRQHandler(){
 	TIM6->CR1 &= ~TIM_CR1_CEN;
 	//Acknowledge the interrupt
 	generate_image();
-	draw_bird(rand() % 2 + 1);
-	draw_background();
+
 	if ((TIM6->SR & TIM_SR_UIF) != 0) {
 		TIM6->SR &= ~TIM_SR_UIF;
 	}
+
 	TIM6->CR1 |= TIM_CR1_CEN;
 }
 
 void init_timer3(){
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-	TIM3->PSC = 48000 - 1;
-	TIM3->ARR = 200 - 1;
+	TIM3->PSC = 24000 - 1;
+	TIM3->ARR = 1000 - 1;
 	TIM3->DIER |= TIM_DIER_UIE;
 	TIM3->CR1 |= 2 << 8;
 	TIM3->CR1 |= TIM_CR1_CEN;
@@ -633,25 +642,42 @@ void TIM3_IRQHandler(){
 	}
 
 	draw_pipe(a, i--);
-	if (i == -14) {
+	if (i <= -14) {
 		i = 63;
 		a = rand() % 2;
 	}
 
 	draw_pipe(b, j--);
-	if (j == -14) {
+	if (j <= -14) {
 		j = 63;
 		b = rand() % 2;
 	}
 
 	draw_pipe(c, k--);
-	if (k == -14) {
+	if (k <= -14) {
 		k = 63;
 		c = rand() % 2;
 	}
+
+	curheight += 2;
+	draw_bird(1, curheight);
+	if(curheight >= 52){
+		gameover();
+	}
+	bird_fly(curheight);
+	draw_background();
 
 	if ((TIM3->SR & TIM_SR_UIF) != 0) {
 		TIM3->SR &= ~TIM_SR_UIF;
 	}
 	TIM3->CR1 |= TIM_CR1_CEN;
+}
+
+void gameover(){
+	RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
+	RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
+	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+	}
 }
