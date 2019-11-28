@@ -20,8 +20,13 @@ int main(void)
 	//short
     // initialize the matrix pins with port C
     init_gpio();
+
+    while (((GPIOA->IDR) & GPIO_IDR_8) != GPIO_IDR_8) {
+    	draw_title();
+    	generate_image();
+    }
     init_timer6();
-    init_timer3();
+	init_timer3();
     while(1){
     	bird_fly();
     	//nano_wait(100000000);

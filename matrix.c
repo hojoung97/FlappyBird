@@ -38,6 +38,7 @@ uint8_t  canvas[ROW][COL] =
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
+/*
 uint8_t  empty[ROW][COL] =
 {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -73,6 +74,7 @@ uint8_t  empty[ROW][COL] =
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
+*/
 /*
 uint8_t sky[ROW][COL] =
 {
@@ -110,7 +112,7 @@ uint8_t sky[ROW][COL] =
 		{SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY, SKY}
 };
 */
-
+/*
 uint8_t char_blank[11][7] =
         {
         		{0, 0, 0, 0, 0, 0, 0},
@@ -125,7 +127,7 @@ uint8_t char_blank[11][7] =
 				{0, 0, 0, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 0, 0}
         };
-
+*/
 uint8_t char_f[11][7] =
         {
         		{0, 0, 0, 0, 0, 0, 0},
@@ -260,6 +262,82 @@ uint8_t char_d[11][7] =
 				{0, 7, 7, 7, 7, 0, 0},
 				{0, 0, 0, 0, 0, 0, 0}
         };
+
+uint8_t char_g[11][7] =
+        {
+        		{0, 0, 0, 0, 0, 0, 0},
+				{0, 0, Y, Y, Y, 0, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{Y, Y, 0, 0, 0, Y, 0},
+				{Y, Y, 0, 0, 0, 0, 0},
+				{Y, Y, 0, 0, 0, 0, 0},
+				{Y, Y, 0, Y, Y, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{W, Y, 0, 0, 0, Y, W},
+				{0, W, Y, Y, Y, W, 0},
+				{0, 0, W, W, W, 0, 0}
+        };
+
+uint8_t char_m[11][7] =
+        {
+        		{0, 0, 0, 0, 0, 0, 0},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, Y, 0, Y, Y, Y},
+				{Y, Y, Y, 0, Y, Y, Y},
+				{Y, Y, Y, Y, Y, Y, Y},
+				{Y, Y, 0, Y, 0, Y, Y},
+				{Y, Y, 0, Y, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{0, 0, 0, 0, 0, 0, 0}
+        };
+
+uint8_t char_e[11][7] =
+        {
+        		{0, Y, Y, Y, Y, Y, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{0, Y, Y, 0, 0, 0, 0},
+				{0, Y, Y, 0, 0, 0, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{0, Y, Y, 0, 0, 0, 0},
+				{0, Y, Y, 0, 0, 0, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{0, 0, 0, 0, 0, 0, 0}
+        };
+
+uint8_t char_o[11][7] =
+        {
+        		{0, 0, 0, 0, 0, 0, 0},
+				{0, 0, Y, Y, Y, 0, 0},
+				{0, Y, Y, Y, Y, Y, 0},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{0, Y, Y, Y, Y, Y, 0},
+				{0, 0, Y, Y, Y, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0}
+        };
+
+uint8_t char_v[11][7] =
+        {
+        		{0, 0, 0, 0, 0, 0, 0},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{Y, Y, 0, 0, 0, Y, Y},
+				{0, Y, Y, 0, Y, Y, 0},
+				{0, 0, Y, Y, Y, 0, 0},
+				{0, 0, 0, Y, 0, 0, 0}
+        };
+
 
 uint8_t background[7][COL] =
 {
@@ -442,8 +520,8 @@ uint8_t pipes_bot[2][25][12] =
 };
 
 
-void generate_row(int curRow) {
-    for (int j = 0; j < COL; j++) {
+void generate_row(short curRow) {
+    for (short j = 0; j < COL; j++) {
         // clear all color data before setting new color values
         GPIOC->BRR = 0b111111;
 
@@ -473,17 +551,17 @@ void generate_image() {
     GPIOC->BRR |= 0b11111111111111;
 
     // print the image row by row
-    for (int i = 0; i < ROW; i++) {
+    for (short i = 0; i < ROW; i++) {
         generate_row(i);
     }
 }
 
-void mask_canvas(int selRow, int selCol, int imageHeight, int imageWidth, uint8_t (*imgptr)[imageWidth]) {
+void mask_canvas(short selRow, short selCol, short imageHeight, short imageWidth, uint8_t (*imgptr)[imageWidth]) {
 
-    for (int i = 0; i < imageHeight; i++) {
+    for (short i = 0; i < imageHeight; i++) {
 
         // targeted values
-        int tarRow = selRow + i;
+        short tarRow = selRow + i;
         uint8_t colorShift = 0;
 
         // mask to clear the colors
@@ -498,9 +576,9 @@ void mask_canvas(int selRow, int selCol, int imageHeight, int imageWidth, uint8_
                 clearMask <<= 3;
             }
 
-            for (int j = 0; j < imageWidth; j++) {
+            for (short j = 0; j < imageWidth; j++) {
 
-                int tarCol = selCol + j;
+                short tarCol = selCol + j;
 
                 // check if horizontally out of dimension
                 if (((tarCol) < COL) && ((tarCol) >= 0)) {
@@ -515,53 +593,53 @@ void mask_canvas(int selRow, int selCol, int imageHeight, int imageWidth, uint8_
         }
     }
 }
-
+/*
 void clear_display() {
-    int row = (int)sizeof(empty) / sizeof(empty[0]);
-    int width = (int)sizeof(empty[0]) / sizeof(empty[0][0]);
+    short row = (short)sizeof(empty) / sizeof(empty[0]);
+    short width = (short)sizeof(empty[0]) / sizeof(empty[0][0]);
     mask_canvas(0, 0, row, width, empty);
     mask_canvas(32, 0, row, width, empty);
     generate_image();
 }
-
+*/
 
 void draw_title() {
 	mask_canvas(3, 3, 11, 7, char_f); //F
-	generate_image();
 	mask_canvas(5, 8, 11, 7, char_l); //L
-	generate_image();
 	mask_canvas(3, 13, 11, 7, char_a); //A
-	generate_image();
 	mask_canvas(9, 18, 11, 7, char_p); //P
-	generate_image();
 	mask_canvas(9, 24, 11, 7, char_p); //P
-	generate_image();
 	mask_canvas(7, 30, 11, 7, char_y); //Y
-	generate_image();
 	mask_canvas(4, 35, 11, 7, char_b); //B
-	generate_image();
 	mask_canvas(5, 41, 11, 7, char_i); //I
-	generate_image();
 	mask_canvas(5, 45, 11, 7, char_r); //R
-	generate_image();
 	mask_canvas(4, 51, 11, 7, char_d); //D
-	generate_image();
+}
+
+void draw_gameover() {
+	mask_canvas(3, 3, 11, 7, char_g); //G
+	mask_canvas(5, 8, 11, 7, char_a); //A
+	mask_canvas(3, 13, 11, 7, char_m); //M
+	mask_canvas(9, 18, 11, 7, char_e); //E
+	//mask_canvas(9, 24, 11, 7, char_blank); //space
+	mask_canvas(7, 30, 11, 7, char_o); //O
+	mask_canvas(4, 35, 11, 7, char_v); //V
+	mask_canvas(5, 41, 11, 7, char_e); //E
+	mask_canvas(5, 45, 11, 7, char_r); //R
 }
 
 void draw_background() {
-	int height = (int)sizeof(background) / sizeof(background[0]);
-	int width = (int)sizeof(background[0]) / sizeof(background[0][0]);
+	short height = (short)sizeof(background) / sizeof(background[0]);
+	short width = (short)sizeof(background[0]) / sizeof(background[0][0]);
 	mask_canvas(56, 0, height, width, background);
-	//generate_image();
 }
 
-void draw_bird(int index, short curheight) {
-	int height = (int)sizeof(bird[index]) / sizeof(bird[index][0]);
-	int width = (int)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
+void draw_bird(short index, short curheight) {
+	short height = (short)sizeof(bird[index]) / sizeof(bird[index][0]);
+	short width = (short)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
 
 	mask_canvas(curheight - 2, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[index]);
-	//generate_image();
 }
 short curheight = 31;
 
@@ -569,8 +647,8 @@ void bird_fly(){
 	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
 		nano_wait(40000000);
 		TIM3->CR1 &= ~TIM_CR1_CEN;
-		int height = (int)sizeof(bird[2]) / sizeof(bird[2][0]);
-		int width = (int)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
+		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
+		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
 		curheight -= 4;
 
 		mask_canvas(curheight + 4, 20, height, width, bird[0]);
@@ -579,16 +657,14 @@ void bird_fly(){
 	}
 }
 
-void draw_pipe(int index, int col) {
-	int height = (int)sizeof(pipes_top[index]) / sizeof(pipes_top[index][0]);
-	int width = (int)sizeof(pipes_top[index][0]) / sizeof(pipes_top[index][0][0]);
+void draw_pipe(short index, short col) {
+	short height = (short)sizeof(pipes_top[index]) / sizeof(pipes_top[index][0]);
+	short width = (short)sizeof(pipes_top[index][0]) / sizeof(pipes_top[index][0][0]);
 	mask_canvas(0, col, height, width, pipes_top[index]);
-	//generate_image();
 
-	height = (int)sizeof(pipes_bot[index]) / sizeof(pipes_bot[index][0]);
-	width = (int)sizeof(pipes_bot[index][0]) / sizeof(pipes_bot[index][0][0]);
+	height = (short)sizeof(pipes_bot[index]) / sizeof(pipes_bot[index][0]);
+	width = (short)sizeof(pipes_bot[index][0]) / sizeof(pipes_bot[index][0][0]);
 	mask_canvas(32, col, height, width, pipes_bot[index]);
-	//generate_image();
 }
 
 void init_timer6(){
@@ -680,4 +756,6 @@ void gameover(){
 		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
 	}
+	draw_gameover();
+	generate_image();
 }
