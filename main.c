@@ -57,8 +57,6 @@ int main(void)
 
     init_timer6();
 	init_timer3();
-    while(1){
-    	bird_fly();
-    	//nano_wait(100000000);
-    }
+	start_game();
+    //nano_wait(100000000);
 }
