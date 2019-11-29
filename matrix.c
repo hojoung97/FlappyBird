@@ -553,40 +553,38 @@ void draw_bird(short index, short curheight) {
 	mask_canvas(curheight - 2, 20, height, width, bird[0]);
 
 	short checkHeight1 = curheight;
+
+	short checkHeight2 = checkHeight1 + 7;
 	if (checkHeight1 > 31) {
 		checkHeight1 -= ROW;
 	}
-
-	short checkHeight2 = checkHeight1 + 7;
 	if (checkHeight2 > 31) {
-			checkHeight2 -= ROW;
+		checkHeight2 -= ROW;
 	}
-
 
 	if((canvas[checkHeight1][20] == G) || (canvas[checkHeight1][27] == G) || canvas[checkHeight2][20] == (G << 3) || canvas[checkHeight2][27] == (G << 3)){
 		isgameover = 1;
 	}
 
 	mask_canvas(curheight, 20, height, width, bird[index]);
-
 }
 
 void bird_fly(){
 	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		nano_wait(30000000);
+		nano_wait(25000000);
 		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
 		curheight -= 4;
 		mask_canvas(curheight + 4, 20, height, width, bird[0]);
 
 		short checkHeight1 = curheight;
+
+		short checkHeight2 = checkHeight1 + 7;
 		if (checkHeight1 > 31) {
 			checkHeight1 -= ROW;
 		}
-
-		short checkHeight2 = checkHeight1 + 7;
 		if (checkHeight2 > 31) {
-				checkHeight2 -= ROW;
+			checkHeight2 -= ROW;
 		}
 
 
@@ -675,10 +673,10 @@ void TIM3_IRQHandler(){
 		c = rand() % 2;
 	}
 
+	bird_fly();
 	curheight += 2;
 	draw_bird(1, curheight);
 
-	//bird_fly(curheight);
 	draw_background();
 
 	if ((TIM3->SR & TIM_SR_UIF) != 0) {
@@ -688,23 +686,21 @@ void TIM3_IRQHandler(){
 }
 
 void gameover(){
-	if(isgameover == 1){
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
-		/*if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-			RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-			RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
-		}*/
+	RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
+	RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
+	/*if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+	}*/
+	while(1){
 		draw_gameover();
 		generate_image();
 	}
 }
 
 void start_game() {
-	while (1) {
+	while (isgameover == 0) {
 		bird_fly();
-		if (isgameover) {
-			gameover();
-		}
 	}
+	gameover();
 }
