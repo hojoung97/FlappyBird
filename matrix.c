@@ -436,7 +436,7 @@ void generate_row(short curRow) {
         // clear all color data before setting new color values
         GPIOC->BRR = 0b111111;
 
-        // set color?
+        // set color
         GPIOC->BSRR = canvas[curRow][j];// * (WHITE | (WHITE<<3));
 
         // Clock toggle
@@ -450,7 +450,7 @@ void generate_row(short curRow) {
 
     // clear the target row value and set it to current row value
     GPIOC->BRR = 0b111111<<PINA;	//SE0;
-    GPIOC->BSRR = curRow<<PINA;	//SE0);
+    GPIOC->BSRR = curRow<<PINA;	//SE0;
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -516,16 +516,16 @@ void clear_display() {
 }
 
 void draw_title() {
-	mask_canvas(3, 3, 9, 5, char_f); //F
-	mask_canvas(5, 8, 9, 5, char_l); //L
-	mask_canvas(3, 13, 9, 5, char_a); //A
-	mask_canvas(9, 18, 9, 6, char_p); //P
-	mask_canvas(9, 24, 9, 6, char_p); //P
-	mask_canvas(7, 30, 9, 5, char_y); //Y
-	mask_canvas(4, 35, 9, 6, char_b); //B
-	mask_canvas(5, 41, 9, 4, char_i); //I
-	mask_canvas(5, 45, 9, 6, char_r); //R
-	mask_canvas(4, 51, 9, 6, char_d); //D
+	mask_canvas(3, 5, 9, 5, char_f); //F
+	mask_canvas(5, 10, 9, 5, char_l); //L
+	mask_canvas(3, 15, 9, 5, char_a); //A
+	mask_canvas(9, 20, 9, 6, char_p); //P
+	mask_canvas(9, 26, 9, 6, char_p); //P
+	mask_canvas(7, 32, 9, 5, char_y); //Y
+	mask_canvas(4, 37, 9, 6, char_b); //B
+	mask_canvas(5, 43, 9, 4, char_i); //I
+	mask_canvas(5, 47, 9, 6, char_r); //R
+	mask_canvas(4, 53, 9, 6, char_d); //D
 }
 
 void draw_gameover() {
@@ -688,7 +688,7 @@ void start_game() {
 	init_timer6();
 	init_timer3();
 	while (!isgameover) {
-		nano_wait(10000000);
+		//nano_wait(10000000);
 		bird_fly();
 		lcd_display_score(score);
 	}

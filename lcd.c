@@ -104,7 +104,7 @@ void init_lcd_all(void) {
 
 void lcd_display_score(short score) {
     // Display some interesting things.
-    char msg[15] = "score: ";
+    char msg[15] = "Score: ";
     char charscore[8];
     // covert score from int to char
     itoa(score, charscore, 10);
