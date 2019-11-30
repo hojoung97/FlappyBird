@@ -1,5 +1,6 @@
 #include "matrix.h"
 #include "init.h"
+#include "lcd.h"
 
 
 uint8_t  canvas[ROW][COL] =
@@ -38,144 +39,140 @@ uint8_t  canvas[ROW][COL] =
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
-uint8_t char_f[11][7] =
+uint8_t char_blank[11][7] =
+{
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0}
+};
+
+uint8_t char_f[9][5] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 7, 7, 7, 7, 0},
-				{0, 5, 7, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 0, 0},
-				{0, 5, 7, 7, 7, 0, 0},
-				{0, 5, 7, 0, 0, 0, 0},
-				{0, 5, 7, 0, 0, 0, 0},
-				{0, 5, 7, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 5, 5, 5},
+				{5, 5, 5, 5, 5},
+				{5, 7, 7, 7, 7},
+				{5, 7, 0, 0, 0},
+				{5, 5, 5, 5, 0},
+				{5, 7, 7, 7, 0},
+				{5, 7, 0, 0, 0},
+				{5, 7, 0, 0, 0},
+				{5, 7, 0, 0, 0}
         };
 
-uint8_t char_l[11][7] =
+uint8_t char_l[9][5] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 0, 0, 0, 0},
-				{0, 5, 5, 0, 0, 0, 0},
-				{0, 5, 5, 0, 0, 0, 0},
-				{0, 5, 5, 0, 0, 0, 0},
-				{0, 5, 5, 0, 0, 0, 0},
-				{0, 5, 5, 0, 0, 0, 0},
-				{0, 5, 5, 7, 7, 7, 0},
-				{0, 5, 5, 5, 5, 7, 0},
-				{0, 5, 5, 5, 5, 7, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 0, 0, 0},
+				{5, 5, 0, 0, 0},
+				{5, 5, 0, 0, 0},
+				{5, 5, 0, 0, 0},
+				{5, 5, 0, 0, 0},
+				{5, 5, 0, 0, 0},
+				{5, 5, 7, 7, 7},
+				{5, 5, 5, 5, 7},
+				{5, 5, 5, 5, 7}
         };
 
-uint8_t char_a[11][7] =
+uint8_t char_a[9][5] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 5, 0, 0, 0},
-				{0, 0, 5, 5, 5, 0, 0},
-				{0, 5, 5, 0, 5, 7, 0},
-				{0, 5, 5, 0, 5, 7, 0},
-				{0, 5, 5, 5, 5, 7, 0},
-				{0, 5, 5, 5, 5, 7, 0},
-				{0, 5, 5, 0, 5, 7, 0},
-				{0, 5, 5, 0, 5, 7, 0},
-				{0, 5, 5, 0, 5, 7, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{0, 0, 5, 0, 0},
+				{0, 5, 5, 5, 0},
+				{5, 5, 0, 5, 7},
+				{5, 5, 0, 5, 7},
+				{5, 5, 5, 5, 7},
+				{5, 5, 5, 5, 7},
+				{5, 5, 0, 5, 7},
+				{5, 5, 0, 5, 7},
+				{5, 5, 0, 5, 7}
         };
 
-uint8_t char_p[11][7] =
+uint8_t char_p[9][6] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 5, 5, 5, 5},
-				{0, 5, 5, 7, 7, 7, 0},
-				{0, 5, 5, 7, 0, 0, 0},
-				{0, 5, 5, 7, 0, 0, 0},
-				{0, 5, 5, 7, 0, 0, 0},
-				{0, 5, 5, 7, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 5, 5, 5, 5},
+				{5, 5, 7, 7, 7, 0},
+				{5, 5, 7, 0, 0, 0},
+				{5, 5, 7, 0, 0, 0},
+				{5, 5, 7, 0, 0, 0},
+				{5, 5, 7, 0, 0, 0}
         };
 
-uint8_t char_y[11][7] =
+uint8_t char_y[9][5] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 0, 5, 5, 0},
-				{0, 5, 5, 0, 5, 5, 0},
-				{0, 5, 5, 0, 5, 5, 0},
-				{0, 5, 5, 0, 5, 5, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 0, 5, 5, 5, 5, 0},
-				{0, 0, 0, 0, 7, 5, 0},
-				{0, 7, 7, 7, 7, 5, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 0, 5, 5},
+				{5, 5, 0, 5, 5},
+				{5, 5, 0, 5, 5},
+				{5, 5, 0, 5, 5},
+				{5, 5, 5, 5, 5},
+				{0, 5, 5, 5, 5},
+				{0, 0, 0, 7, 5},
+				{7, 7, 7, 7, 5},
+				{5, 5, 5, 5, 5}
         };
 
-uint8_t char_b[11][7] =
+uint8_t char_b[9][6] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 0, 0, 5, 7},
-				{0, 5, 5, 0, 0, 5, 7},
-				{0, 5, 5, 5, 5, 5, 7},
-				{0, 7, 7, 7, 7, 7, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 0, 0, 5, 7},
+				{5, 5, 0, 0, 5, 7},
+				{5, 5, 5, 5, 5, 7},
+				{7, 7, 7, 7, 7, 0}
         };
 
-uint8_t char_i[11][7] =
+uint8_t char_i[9][4] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 0, 5, 5, 0, 0, 0},
-				{0, 5, 5, 5, 5, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 5, 5},
+				{0, 5, 5, 0},
+				{0, 5, 5, 0},
+				{0, 5, 5, 0},
+				{0, 5, 5, 0},
+				{0, 5, 5, 0},
+				{0, 5, 5, 0},
+				{0, 5, 5, 0},
+				{Y, Y, Y, Y}
         };
 
-uint8_t char_r[11][7] =
+uint8_t char_r[9][6] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 0, 0, 5, 7},
-				{0, 5, 5, 0, 0, 5, 7},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 7, 0, 0, 5, 7},
-				{0, 5, 7, 0, 0, 5, 7},
-				{0, 5, 7, 0, 0, 5, 7},
-				{0, 5, 7, 0, 0, 5, 7},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 0, 0, 5, 7},
+				{5, 5, 0, 0, 5, 7},
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 5, 5, 5, 0},
+				{5, 7, 0, 0, 5, 7},
+				{5, 7, 0, 0, 5, 7},
+				{5, 7, 0, 0, 5, 7},
+				{5, 7, 0, 0, 5, 7}
         };
 
-uint8_t char_d[11][7] =
+uint8_t char_d[9][6] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
-				{0, 5, 5, 5, 5, 0, 0},
-				{0, 5, 5, 5, 5, 5, 0},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 0, 0, 5, 5},
-				{0, 5, 5, 0, 0, 5, 7},
-				{0, 5, 5, 5, 5, 7, 0},
-				{0, 7, 7, 7, 7, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{5, 5, 5, 5, 0, 0},
+				{5, 5, 5, 5, 5, 0},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 0, 0, 5, 5},
+				{5, 5, 0, 0, 5, 7},
+				{5, 5, 5, 5, 7, 0},
+				{7, 7, 7, 7, 0, 0}
         };
 
-uint8_t char_g[11][7] =
+uint8_t char_g[10][7] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
 				{0, 0, Y, Y, Y, 0, 0},
 				{0, Y, Y, Y, Y, Y, 0},
 				{Y, Y, 0, 0, 0, Y, 0},
@@ -188,9 +185,8 @@ uint8_t char_g[11][7] =
 				{0, 0, W, W, W, 0, 0}
         };
 
-uint8_t char_m[11][7] =
+uint8_t char_m[9][7] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, Y, 0, Y, Y, Y},
 				{Y, Y, Y, 0, Y, Y, Y},
@@ -199,53 +195,48 @@ uint8_t char_m[11][7] =
 				{Y, Y, 0, Y, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
-				{Y, Y, 0, 0, 0, Y, Y},
-				{0, 0, 0, 0, 0, 0, 0}
+				{Y, Y, 0, 0, 0, Y, Y}
         };
 
-uint8_t char_e[11][7] =
+uint8_t char_e[10][5] =
         {
-        		{0, Y, Y, Y, Y, Y, 0},
-				{0, Y, Y, Y, Y, Y, 0},
-				{0, Y, Y, 0, 0, 0, 0},
-				{0, Y, Y, 0, 0, 0, 0},
-				{0, Y, Y, Y, Y, Y, 0},
-				{0, Y, Y, Y, Y, Y, 0},
-				{0, Y, Y, 0, 0, 0, 0},
-				{0, Y, Y, 0, 0, 0, 0},
-				{0, Y, Y, Y, Y, Y, 0},
-				{0, Y, Y, Y, Y, Y, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+        		{Y, Y, Y, Y, Y},
+				{Y, Y, W, W, W},
+				{Y, Y, 0, 0, 0},
+				{Y, Y, 0, 0, 0},
+				{Y, Y, Y, Y, Y},
+				{Y, Y, W, W, W},
+				{Y, Y, 0, 0, 0},
+				{Y, Y, 0, 0, 0},
+				{Y, Y, Y, Y, Y},
+				{W, W, W, W, W}
         };
 
-uint8_t char_o[11][7] =
+uint8_t char_o[9][7] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
 				{0, 0, Y, Y, Y, 0, 0},
 				{0, Y, Y, Y, Y, Y, 0},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
-				{Y, Y, 0, 0, 0, Y, Y},
-				{0, Y, Y, Y, Y, Y, 0},
-				{0, 0, Y, Y, Y, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0}
+				{W, Y, 0, 0, 0, Y, W},
+				{0, W, Y, Y, Y, W, 0},
+				{0, 0, W, W, W, 0, 0}
         };
 
-uint8_t char_v[11][7] =
+uint8_t char_v[10][7] =
         {
-        		{0, 0, 0, 0, 0, 0, 0},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
 				{Y, Y, 0, 0, 0, Y, Y},
-				{Y, Y, 0, 0, 0, Y, Y},
-				{0, Y, Y, 0, Y, Y, 0},
-				{0, 0, Y, Y, Y, 0, 0},
-				{0, 0, 0, Y, 0, 0, 0}
+				{W, Y, 0, 0, 0, Y, W},
+				{0, W, Y, 0, Y, W, 0},
+				{0, 0, W, Y, W, 0, 0},
+				{0, 0, 0, W, 0, 0, 0}
         };
 
 
@@ -429,6 +420,17 @@ uint8_t pipes_bot[2][25][12] =
 		}
 };
 
+// Global Variable
+short curheight = 31;
+short isgameover = 0;
+short i = 63;
+short j = 89;
+short k = 115;
+uint8_t a = 1;
+uint8_t b = 0;
+uint8_t c = 1;
+short score = 0;
+
 void generate_row(short curRow) {
     for (short j = 0; j < COL; j++) {
         // clear all color data before setting new color values
@@ -514,30 +516,29 @@ void clear_display() {
 }
 
 void draw_title() {
-	mask_canvas(3, 3, 11, 7, char_f); //F
-	mask_canvas(5, 8, 11, 7, char_l); //L
-	mask_canvas(3, 13, 11, 7, char_a); //A
-	mask_canvas(9, 18, 11, 7, char_p); //P
-	mask_canvas(9, 24, 11, 7, char_p); //P
-	mask_canvas(7, 30, 11, 7, char_y); //Y
-	mask_canvas(4, 35, 11, 7, char_b); //B
-	mask_canvas(5, 41, 11, 7, char_i); //I
-	mask_canvas(5, 45, 11, 7, char_r); //R
-	mask_canvas(4, 51, 11, 7, char_d); //D
+	mask_canvas(3, 3, 9, 5, char_f); //F
+	mask_canvas(5, 8, 9, 5, char_l); //L
+	mask_canvas(3, 13, 9, 5, char_a); //A
+	mask_canvas(9, 18, 9, 6, char_p); //P
+	mask_canvas(9, 24, 9, 6, char_p); //P
+	mask_canvas(7, 30, 9, 5, char_y); //Y
+	mask_canvas(4, 35, 9, 6, char_b); //B
+	mask_canvas(5, 41, 9, 4, char_i); //I
+	mask_canvas(5, 45, 9, 6, char_r); //R
+	mask_canvas(4, 51, 9, 6, char_d); //D
 }
 
 void draw_gameover() {
-	mask_canvas(3, 7, 11, 7, char_g); //G
-	mask_canvas(5, 12, 11, 7, char_a); //A
-	mask_canvas(3, 17, 11, 7, char_m); //M
-	mask_canvas(9, 22, 11, 7, char_e); //E
+	mask_canvas(3, 7, 10, 7, char_g); //G
+	mask_canvas(5, 14, 9, 5, char_a); //A
+	mask_canvas(3, 19, 9, 7, char_m); //M
+	mask_canvas(5, 26, 10, 5, char_e); //E
 	//mask_canvas(9, 24, 11, 7, char_blank); //space
-	mask_canvas(7, 34, 11, 7, char_o); //O
-	mask_canvas(4, 39, 11, 7, char_v); //V
-	mask_canvas(5, 45, 11, 7, char_e); //E
-	mask_canvas(5, 49, 11, 7, char_r); //R
+	mask_canvas(7, 33, 9, 7, char_o); //O
+	mask_canvas(4, 40, 10, 7, char_v); //V
+	mask_canvas(5, 47, 10, 5, char_e); //E
+	mask_canvas(5, 52, 9, 6, char_r); //R
 }
-short curheight = 31;
 
 void draw_background() {
 	short height = (short)sizeof(background) / sizeof(background[0]);
@@ -545,22 +546,13 @@ void draw_background() {
 	mask_canvas(56, 0, height, width, background);
 }
 
-short isgameover = 0;
-
-void draw_bird(short index, short curheight) {
+void draw_bird(short index) {
 	short height = (short)sizeof(bird[index]) / sizeof(bird[index][0]);
 	short width = (short)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
 	mask_canvas(curheight - 2, 20, height, width, bird[0]);
 
-	short checkHeight1 = curheight;
-
-	short checkHeight2 = checkHeight1 + 7;
-	if (checkHeight1 > 31) {
-		checkHeight1 -= ROW;
-	}
-	if (checkHeight2 > 31) {
-		checkHeight2 -= ROW;
-	}
+	short checkHeight1 = curheight % ROW;
+	short checkHeight2 = (checkHeight1 + 7) % ROW;
 
 	if((canvas[checkHeight1][20] == G) || (canvas[checkHeight1][27] == G) || canvas[checkHeight2][20] == (G << 3) || canvas[checkHeight2][27] == (G << 3)){
 		isgameover = 1;
@@ -577,16 +569,8 @@ void bird_fly(){
 		curheight -= 4;
 		mask_canvas(curheight + 4, 20, height, width, bird[0]);
 
-		short checkHeight1 = curheight;
-
-		short checkHeight2 = checkHeight1 + 7;
-		if (checkHeight1 > 31) {
-			checkHeight1 -= ROW;
-		}
-		if (checkHeight2 > 31) {
-			checkHeight2 -= ROW;
-		}
-
+		short checkHeight1 = curheight % ROW;
+		short checkHeight2 = (checkHeight1 + 7) % ROW;
 
 		if((canvas[checkHeight1][20] == G) || (canvas[checkHeight1][27] == G) || canvas[checkHeight2][20] == (G << 3) || canvas[checkHeight2][27] == (G << 3)){
 			isgameover = 1;
@@ -609,6 +593,7 @@ void draw_pipe(short index, short col) {
 void init_timer6(){
 	// clock to timer 6
 	RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+	TIM6->CR1 &= ~TIM_CR1_CEN;
 	// count up
 	TIM6->CR1 &= ~TIM_CR1_DIR;
 	TIM6->PSC = 480 - 1;
@@ -617,10 +602,6 @@ void init_timer6(){
 	TIM6->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM6_DAC_IRQn;
 }
-
-short i = 63;
-short j = 89;
-short k = 115;
 
 void TIM6_DAC_IRQHandler(){
 	TIM6->CR1 &= ~TIM_CR1_CEN;
@@ -635,6 +616,7 @@ void TIM6_DAC_IRQHandler(){
 
 void init_timer3(){
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+	TIM3->CR1 &= ~TIM_CR1_CEN;
 	TIM3->PSC = 12000 - 1;
 	TIM3->ARR = 1000 - 1;
 	TIM3->DIER |= TIM_DIER_UIE;
@@ -642,10 +624,6 @@ void init_timer3(){
 	TIM3->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM3_IRQn;
 }
-
-uint8_t a = 1;
-uint8_t b = 0;
-uint8_t c = 1;
 
 void TIM3_IRQHandler(){
 	TIM3->CR1 &= ~TIM_CR1_CEN;
@@ -675,7 +653,7 @@ void TIM3_IRQHandler(){
 
 	bird_fly();
 	curheight += 2;
-	draw_bird(1, curheight);
+	draw_bird(1);
 
 	draw_background();
 
@@ -686,8 +664,10 @@ void TIM3_IRQHandler(){
 }
 
 void gameover(){
-	RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
-	RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
+	TIM3->CR1 &= ~TIM_CR1_CEN;
+	TIM6->CR1 &= ~TIM_CR1_CEN;
+	//RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
+	//RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
 	/*if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
 		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
@@ -699,7 +679,18 @@ void gameover(){
 }
 
 void start_game() {
+	// clear canvas
+	clear_display();
+	//mask_canvas(3, 3, 11, 7, char_blank);
+	//mask_canvas(31, 0, 11, 7, char_blank);
+
+	// display score
+	lcd_display_score(score);
+
+	init_timer6();
+	init_timer3();
 	while (isgameover == 0) {
+		nano_wait(10000000);
 		bird_fly();
 	}
 	gameover();

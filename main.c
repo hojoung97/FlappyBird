@@ -15,48 +15,29 @@
 #include "matrix.h"
 #include "lcd.h"
 
-uint8_t char_blank[11][7] =
-{
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0}
-};
+#include <stdio.h>
+#include <stdlib.h>
 
-// global score var
-short score = 0;
+
+// global score variable
+
 
 int main(void)
 {
-	//short
     // initialize the matrix pins with port C
     init_gpio();
-    // initialize lcd display
+    // initialize LCD display
     init_lcd_all();
     lcd_display_main();
 
+    // wait for user input and display the title screen
     while (((GPIOA->IDR) & GPIO_IDR_8) != GPIO_IDR_8) {
     	draw_title();
-    	draw_bird(rand() % 2 + 1, 32);
+    	draw_bird(rand() % 2 + 1);
     	draw_background();
     	generate_image();
     }
 
-    mask_canvas(3, 3, 20, 58, char_blank);
-    mask_canvas(31, 0, 25, 64, char_blank);
-
-    // display score
-    lcd_display_score(score);
-
-    init_timer6();
-	init_timer3();
 	start_game();
-    //nano_wait(100000000);
+
 }

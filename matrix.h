@@ -12,7 +12,7 @@ void clear_display();
 void gameover();
 void draw_title();
 void draw_background();
-void draw_bird(short, short);
+void draw_bird(short);
 void draw_pipe(short, short);
 void bird_fly();
 short collision();
