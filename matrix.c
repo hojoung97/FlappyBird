@@ -242,9 +242,9 @@ uint8_t char_v[10][7] =
 
 uint8_t background[7][COL] =
 {
-		{4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4},
-		{4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4},
-		{5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5, 4, 4, 5},
+		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
 		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
 		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
 		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
@@ -437,7 +437,7 @@ void generate_row(short curRow) {
         GPIOC->BRR = 0b111111;
 
         // set color
-        GPIOC->BSRR = canvas[curRow][j];// * (WHITE | (WHITE<<3));
+        GPIOC->BSRR = canvas[curRow][j];
 
         // Clock toggle
         GPIOC->BSRR = 1<<CLK; 	// set
@@ -449,8 +449,8 @@ void generate_row(short curRow) {
     GPIOC->BSRR = 1<<LAT;		//LAT;
 
     // clear the target row value and set it to current row value
-    GPIOC->BRR = 0b111111<<PINA;	//SE0;
-    GPIOC->BSRR = curRow<<PINA;	//SE0;
+    GPIOC->BRR = 0b11111<<PINA;
+	GPIOC->BSRR = curRow<<PINA;
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -459,7 +459,6 @@ void generate_row(short curRow) {
 
 void generate_image() {
     // clear output values for pins
-    GPIOC->BRR |= 0b11111111111111;
 
     // print the image row by row
     for (short i = 0; i < ROW; i++) {
@@ -566,8 +565,8 @@ void bird_fly(){
 		nano_wait(5000000);
 		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
-		curheight -= 4;
-		mask_canvas(curheight + 4, 20, height, width, bird[0]);
+		curheight -= 6;
+		mask_canvas(curheight + 6, 20, height, width, bird[0]);
 
 		short checkHeight1 = curheight % ROW;
 		short checkHeight2 = (curheight + 7) % ROW;
