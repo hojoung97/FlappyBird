@@ -554,7 +554,7 @@ void draw_bird(short index) {
 	short checkHeight1 = curheight % ROW;
 	short checkHeight2 = (checkHeight1 + 7) % ROW;
 
-	if((canvas[checkHeight1][20] == G) || (canvas[checkHeight1][27] == G) || canvas[checkHeight2][20] == (G << 3) || canvas[checkHeight2][27] == (G << 3)){
+	if((canvas[checkHeight1][19] == G) || (canvas[checkHeight1][26] == G) || canvas[checkHeight2][19] == (G << 3) || canvas[checkHeight2][26] == (G << 3)){
 		isgameover = 1;
 	}
 
@@ -563,16 +563,16 @@ void draw_bird(short index) {
 
 void bird_fly(){
 	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		nano_wait(25000000);
+		nano_wait(5000000);
 		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
 		curheight -= 4;
 		mask_canvas(curheight + 4, 20, height, width, bird[0]);
 
 		short checkHeight1 = curheight % ROW;
-		short checkHeight2 = (checkHeight1 + 7) % ROW;
+		short checkHeight2 = (curheight + 7) % ROW;
 
-		if((canvas[checkHeight1][20] == G) || (canvas[checkHeight1][27] == G) || canvas[checkHeight2][20] == (G << 3) || canvas[checkHeight2][27] == (G << 3)){
+		if((canvas[checkHeight1][19] == G) || (canvas[checkHeight1][26] == G) || canvas[checkHeight2][19] == (G << 3) || canvas[checkHeight2][26] == (G << 3)){
 			isgameover = 1;
 		}
 
@@ -651,11 +651,14 @@ void TIM3_IRQHandler(){
 		c = rand() % 2;
 	}
 
-	bird_fly();
+	//bird_fly();
 	curheight += 2;
 	draw_bird(1);
-
 	draw_background();
+
+	if(i == 8 || j == 8 || k == 8){
+		score++;
+	}
 
 	if ((TIM3->SR & TIM_SR_UIF) != 0) {
 		TIM3->SR &= ~TIM_SR_UIF;
@@ -681,17 +684,14 @@ void gameover(){
 void start_game() {
 	// clear canvas
 	clear_display();
-	//mask_canvas(3, 3, 11, 7, char_blank);
-	//mask_canvas(31, 0, 11, 7, char_blank);
-
-	// display score
-	lcd_display_score(score);
 
 	init_timer6();
 	init_timer3();
-	while (isgameover == 0) {
+	while (!isgameover) {
 		nano_wait(10000000);
 		bird_fly();
+		lcd_display_score(score);
 	}
+
 	gameover();
 }

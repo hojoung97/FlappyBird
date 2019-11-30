@@ -39,5 +39,4 @@ int main(void)
     }
 
 	start_game();
-
 }
