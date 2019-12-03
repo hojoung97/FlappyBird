@@ -3,8 +3,9 @@
 #include "lcd.h"
 
 
-uint8_t  canvas[ROW][COL] =
+uint8_t  canvas[ROW+1][COL] =
 {
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -449,8 +450,10 @@ void generate_row(short curRow) {
     GPIOC->BSRR = 1<<LAT;		//LAT;
 
     // clear the target row value and set it to current row value
-    GPIOC->BRR = 0b111111<<PINA;	//SE0;
-    GPIOC->BSRR = curRow<<PINA;	//SE0;
+    if (curRow != 32){
+    	GPIOC->BRR = 0b111111<<PINA;	//SE0;
+    	GPIOC->BSRR = curRow<<PINA;	//SE0;
+    }
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -461,7 +464,7 @@ void generate_image() {
     // clear output values for pins
     //GPIOC->BRR = 0b11111111111111;
     // print the image row by row
-    for (short i = 0; i < ROW; i++) {
+    for (short i = 0; i < ROW+1; i++) {
         generate_row(i);
     }
 }
