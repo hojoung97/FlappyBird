@@ -23,3 +23,12 @@ void nano_wait(unsigned int n) {
             "        bgt repeat\n"
     : : "r"(n) : "r0", "cc");
 }
+
+void init_syscfg() {
+	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+	SYSCFG->EXTICR[2] = SYSCFG_EXTICR3_EXTI8_PA;
+
+	EXTI->RTSR |= EXTI_RTSR_TR8;
+	EXTI->IMR |= EXTI_IMR_MR8;
+
+}

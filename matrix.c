@@ -290,31 +290,31 @@ uint8_t bird[3][8][8] =
 uint8_t pipes_top[2][ROW][12] =
 {
 		 {
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
 					{0, G, G, G, G, G, G, G, G, G, G, 0},
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -325,24 +325,24 @@ uint8_t pipes_top[2][ROW][12] =
 		 },
 
 		 {
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
 					{0, G, G, G, G, G, G, G, G, G, G, 0},
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -379,16 +379,16 @@ uint8_t pipes_bot[2][25][12] =
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					{0, G, G, G, G, G, G, G, G, G, G, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-		    		{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0}
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0}
 		},
 
 		{
@@ -400,23 +400,23 @@ uint8_t pipes_bot[2][25][12] =
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 					{0, G, G, G, G, G, G, G, G, G, G, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
-					{0, G, G, Y, Y, G, G, G, G, G, G, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0},
-					{0, 0, G, Y, Y, G, G, G, G, G, 0, 0}
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0},
+					{0, 0, G, G, G, G, G, G, G, G, 0, 0}
 		}
 };
 
@@ -437,7 +437,7 @@ void generate_row(short curRow) {
         GPIOC->BRR = 0b111111;
 
         // set color
-        GPIOC->BSRR = canvas[curRow][j];
+        GPIOC->BSRR = canvas[curRow][j];// * (WHITE | (WHITE<<3));
 
         // Clock toggle
         GPIOC->BSRR = 1<<CLK; 	// set
@@ -449,8 +449,8 @@ void generate_row(short curRow) {
     GPIOC->BSRR = 1<<LAT;		//LAT;
 
     // clear the target row value and set it to current row value
-    GPIOC->BRR = 0b11111<<PINA;
-	GPIOC->BSRR = curRow<<PINA;
+    GPIOC->BRR = 0b111111<<PINA;	//SE0;
+    GPIOC->BSRR = curRow<<PINA;	//SE0;
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -459,7 +459,7 @@ void generate_row(short curRow) {
 
 void generate_image() {
     // clear output values for pins
-
+    //GPIOC->BRR = 0b11111111111111;
     // print the image row by row
     for (short i = 0; i < ROW; i++) {
         generate_row(i);
@@ -468,7 +468,6 @@ void generate_image() {
 
 void mask_canvas(short selRow, short selCol, short imageHeight, short imageWidth, uint8_t (*imgptr)[imageWidth]) {
     for (short i = 0; i < imageHeight; i++) {
-
         // targeted values
         short tarRow = selRow + i;
         uint8_t colorShift = 0;
@@ -503,7 +502,6 @@ void mask_canvas(short selRow, short selCol, short imageHeight, short imageWidth
 
 void clear_display() {
 	for (short i = 0; i < ROW; i++) {
-
 	        // mask to clear the colors
 	        uint8_t clearMask = 0b111111;
 
@@ -546,38 +544,73 @@ void draw_background() {
 }
 
 void draw_bird(short index) {
-	short height = (short)sizeof(bird[index]) / sizeof(bird[index][0]);
-	short width = (short)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
-	mask_canvas(curheight - 2, 20, height, width, bird[0]);
-
-	short checkHeight1 = curheight % ROW;
-	short checkHeight2 = (checkHeight1 + 7) % ROW;
-
-	if((canvas[checkHeight1][19] == G) || (canvas[checkHeight1][26] == G) || canvas[checkHeight2][19] == (G << 3) || canvas[checkHeight2][26] == (G << 3)){
-		isgameover = 1;
+	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
+		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
+		curheight -= 6;
+		mask_canvas(curheight + 6, 20, height, width, bird[0]);
+		mask_canvas(curheight, 20, height, width, bird[2]);
 	}
 
-	mask_canvas(curheight, 20, height, width, bird[index]);
+	else{
+		short height = (short)sizeof(bird[index]) / sizeof(bird[index][0]);
+		short width = (short)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
+		curheight += 2;
+		mask_canvas(curheight - 2, 20, height, width, bird[0]);
+		mask_canvas(curheight, 20, height, width, bird[index]);
+	}
+
+	if(curheight >= ROW){
+		if((canvas[curheight - 32][19] == (G << 3)) || (canvas[curheight - 32][26] == (G << 3)) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
+			isgameover = 1;
+		}
+	}
+
+	else if(curheight < ROW && curheight + 7 >= ROW){
+		if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
+			isgameover = 1;
+		}
+	}
+
+	else if(curheight + 7 < ROW){
+		if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight + 7][19] == G || canvas[curheight + 7][26] == G){
+			isgameover = 1;
+		}
+	}
+
+	if(curheight >= 49){
+		isgameover = 1;
+	}
 }
 
-void bird_fly(){
+/*void bird_fly(){
 	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		nano_wait(5000000);
 		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
 		curheight -= 6;
 		mask_canvas(curheight + 6, 20, height, width, bird[0]);
 
-		short checkHeight1 = curheight % ROW;
-		short checkHeight2 = (curheight + 7) % ROW;
+			if(curheight >= ROW){
+				if((canvas[curheight - 32][19] == (G << 3)) || (canvas[curheight - 32][26] == (G << 3)) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
+					isgameover = 1;
+				}
+			}
 
-		if((canvas[checkHeight1][19] == G) || (canvas[checkHeight1][26] == G) || canvas[checkHeight2][19] == (G << 3) || canvas[checkHeight2][26] == (G << 3)){
-			isgameover = 1;
-		}
+			else if(curheight < ROW && curheight + 7 >= ROW){
+				if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
+					isgameover = 1;
+				}
+			}
+
+			else if(curheight < ROW && curheight + 7 < ROW){
+				if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight + 7][19] == G || canvas[curheight + 7][26] == G){
+					isgameover = 1;
+				}
+			}
 
 		mask_canvas(curheight, 20, height, width, bird[2]);
 	}
-}
+}*/
 
 void draw_pipe(short index, short col) {
 	short height = (short)sizeof(pipes_top[index]) / sizeof(pipes_top[index][0]);
@@ -621,7 +654,40 @@ void init_timer3(){
 	TIM3->DIER |= TIM_DIER_UIE;
 	TIM3->CR1 |= 2 << 8;
 	TIM3->CR1 |= TIM_CR1_CEN;
-	NVIC->ISER[0] = 1 << TIM3_IRQn;
+	NVIC->ISER[0] = (1 << TIM3_IRQn) | (1 << EXTI4_15_IRQn);
+}
+
+void EXTI4_15_IRQHandler() {
+	short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
+	short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
+	curheight -= 6;
+
+
+	if(curheight >= ROW){
+		if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+			isgameover = 1;
+		}
+	}
+
+	else if((curheight < ROW) && (curheight + 7 >= ROW)){
+		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+			isgameover = 1;
+		}
+	}
+
+	else if(curheight + 7 < ROW){
+		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight + 7][22] == G || canvas[curheight + 7][28] == G){
+			isgameover = 1;
+		}
+	}
+
+	mask_canvas(curheight + 6, 20, height, width, bird[0]);
+	mask_canvas(curheight, 20, height, width, bird[2]);
+
+	if(isgameover == 1){
+		gameover();
+	}
+	EXTI->PR |= EXTI_PR_PR8;
 }
 
 void TIM3_IRQHandler(){
@@ -651,9 +717,81 @@ void TIM3_IRQHandler(){
 	}
 
 	//bird_fly();
-	curheight += 2;
-	draw_bird(1);
+	//curheight += 2;
+	//draw_bird(1);
 	draw_background();
+	/*
+	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
+		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
+		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
+		curheight -= 6;
+
+		if(curheight >= ROW){
+			if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+				isgameover = 1;
+			}
+		}
+
+		else if((curheight < ROW) && (curheight + 7 >= ROW)){
+			if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+				isgameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight + 7][22] == G || canvas[curheight + 7][28] == G){
+				isgameover = 1;
+			}
+		}
+
+		mask_canvas(curheight + 6, 20, height, width, bird[0]);
+		mask_canvas(curheight, 20, height, width, bird[2]);
+
+		if(isgameover == 1){
+			gameover();
+		}
+	}*/
+
+	//else{
+	short height = (short)sizeof(bird[1]) / sizeof(bird[1][0]);
+	short width = (short)sizeof(bird[1][0]) / sizeof(bird[1][0][0]);
+	curheight += 1;
+
+	if(curheight >= ROW){
+		if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+			isgameover = 1;
+		}
+	}
+
+	else if((curheight < ROW) && (curheight + 7 >= ROW)){
+		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+			isgameover = 1;
+		}
+	}
+
+	else if(curheight + 7 < ROW){
+		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight + 7][22] == G || canvas[curheight + 7][28] == G){
+			isgameover = 1;
+		}
+
+	}
+	mask_canvas(curheight - 1, 20, height, width, bird[0]);
+	mask_canvas(curheight, 20, height, width, bird[1]);
+
+	if(isgameover == 1){
+		gameover();
+	}
+	//}
+
+
+	if(curheight >= 49){
+		isgameover = 1;
+		gameover();
+	}
+
+	/*if(isgameover == 1){
+		gameover();
+	}*/
 
 	if(i == 8 || j == 8 || k == 8){
 		score++;
@@ -688,7 +826,7 @@ void start_game() {
 	init_timer3();
 	while (!isgameover) {
 		//nano_wait(10000000);
-		bird_fly();
+		//bird_fly();
 		lcd_display_score(score);
 	}
 
