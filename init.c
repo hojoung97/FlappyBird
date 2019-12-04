@@ -13,6 +13,9 @@ void init_gpio() {
 	GPIOA->MODER &= ~0x30000;
 	GPIOA->PUPDR &= ~0x30000;
 	GPIOA->PUPDR |= 0x20000;
+	//PA4 to analog mode for sound
+	GPIOA->MODER &= ~0x300;
+	GPIOA->MODER |= 0x300;
 }
 
 void nano_wait(unsigned int n) {
@@ -29,4 +32,13 @@ void init_syscfg() {
 
 	EXTI->RTSR |= EXTI_RTSR_TR8;
 	EXTI->IMR |= EXTI_IMR_MR8;
+}
+
+void init_dac() {
+	RCC->APB1ENR |= RCC_APB1ENR_DACEN;
+	DAC->CR &= ~DAC_CR_BOFF1;
+	DAC->CR &= ~DAC_CR_EN1;
+	DAC->CR |= DAC_CR_TEN1;
+	DAC->CR |= DAC_CR_TSEL1;
+	DAC->CR |= DAC_CR_EN1;
 }

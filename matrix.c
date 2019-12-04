@@ -1,7 +1,7 @@
 #include "matrix.h"
 #include "init.h"
 #include "lcd.h"
-
+#include <math.h>
 
 uint8_t  canvas[ROW][COL] =
 {
@@ -430,6 +430,17 @@ uint8_t a = 1;
 uint8_t b = 0;
 uint8_t c = 1;
 short score = 0;
+int offset = 0;
+#define RATE 100000
+#define N 1000
+short int wavetable[100];
+void init_wavetable(void)
+{
+	int x;
+	for(x=0; x<100; x++) {
+		wavetable[x] = 32767 * sin(2 * M_PI * x / 100);
+	}
+}
 
 void generate_row(short curRow) {
     for (short j = 0; j < COL; j++) {
@@ -629,24 +640,54 @@ void init_timer6(){
 	// clock to timer 6
 	RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
 	TIM6->CR1 &= ~TIM_CR1_CEN;
-	// count up
-	TIM6->CR1 &= ~TIM_CR1_DIR;
-	TIM6->PSC = 480 - 1;
-	TIM6->ARR = 100 - 1;
+	TIM6->PSC = 10 - 1;
+	TIM6->ARR = 480 - 1;
 	TIM6->DIER |= TIM_DIER_UIE;
 	TIM6->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM6_DAC_IRQn;
 }
 
 void TIM6_DAC_IRQHandler(){
-	TIM6->CR1 &= ~TIM_CR1_CEN;
-	generate_image();
+	//TIM6->CR1 &= ~TIM_CR1_CEN;
+	//DAC->SWTRIGR |= DAC_SWTRIGR_SWTRIG1;
+	TIM6->SR &= ~TIM_SR_UIF;
 
-	if ((TIM6->SR & TIM_SR_UIF) != 0) {
-		TIM6->SR &= ~TIM_SR_UIF;
+	if(offset >= sizeof(wavetable) / sizeof(wavetable[0])){
+		offset = 0;
 	}
 
-	TIM6->CR1 |= TIM_CR1_CEN;
+	int temp = (wavetable[offset] + 32768) >> 4;
+	DAC->DHR12R1 = temp;
+	DAC->SWTRIGR |= DAC_SWTRIGR_SWTRIG1;
+
+	offset++;
+	/*if ((TIM6->SR & TIM_SR_UIF) != 0) {
+		TIM6->SR &= ~TIM_SR_UIF;
+	}*/
+}
+
+void init_timer2(){
+	// clock to timer 2
+	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+	TIM2->CR1 &= ~TIM_CR1_CEN;
+	// count up
+	TIM2->CR1 &= ~TIM_CR1_DIR;
+	TIM2->PSC = 480 - 1;
+	TIM2->ARR = 100 - 1;
+	TIM2->DIER |= TIM_DIER_UIE;
+	TIM2->CR1 |= TIM_CR1_CEN;
+	NVIC->ISER[0] = 1 << TIM2_IRQn;
+}
+
+void TIM2_IRQHandler(){
+	TIM2->CR1 &= ~TIM_CR1_CEN;
+	generate_image();
+
+	if ((TIM2->SR & TIM_SR_UIF) != 0) {
+		TIM2->SR &= ~TIM_SR_UIF;
+	}
+
+	TIM2->CR1 |= TIM_CR1_CEN;
 }
 
 void init_timer3(){
@@ -663,27 +704,27 @@ void init_timer3(){
 void EXTI4_15_IRQHandler() {
 	short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 	short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
-	//curheight -= 6;
-
-	if(curheight >= ROW){
-		if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
-			isgameover = 1;
-		}
-	}
-
-	else if((curheight < ROW) && (curheight + 7 >= ROW)){
-		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
-			isgameover = 1;
-		}
-	}
-
-	else if(curheight + 7 < ROW){
-		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight + 7][22] == G || canvas[curheight + 7][28] == G){
-			isgameover = 1;
-		}
-	}
 
 	curheight -= 6;
+
+		if(curheight >= ROW){
+			if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+				isgameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+				isgameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 < ROW){
+			if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
+				isgameover = 1;
+			}
+		}
+
 	mask_canvas(curheight + 6, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[2]);
 
@@ -744,7 +785,6 @@ void TIM3_IRQHandler(){
 		}
 	}
 
-	//curheight += 1;
 	mask_canvas(curheight - 1, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[1]);
 
@@ -769,6 +809,8 @@ void TIM3_IRQHandler(){
 
 void gameover(){
 	TIM3->CR1 &= ~TIM_CR1_CEN;
+	TIM2->CR1 &= ~TIM_CR1_CEN;
+	TIM6->CR1 &= ~TIM_CR1_CEN;
 
 	while(1){
 		draw_gameover();
@@ -779,7 +821,9 @@ void gameover(){
 void start_game() {
 	clear_display();
 
+	init_wavetable();
 	init_timer6();
+	init_timer2();
 	init_timer3();
 	while (!isgameover) {
 		lcd_display_score(score);

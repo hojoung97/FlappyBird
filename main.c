@@ -38,6 +38,7 @@ int main(void)
     	generate_image();
     }
 
+    init_dac();
     init_syscfg();
 	start_game();
 }

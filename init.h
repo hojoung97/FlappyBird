@@ -38,6 +38,8 @@
 void init_gpio(void);
 void nano_wait(unsigned int);
 void init_timer6(void);
+void init_timer2(void);
 void init_timer3(void);
+void init_dac();
 
 #endif /* INIT_H_ */
