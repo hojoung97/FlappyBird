@@ -3,9 +3,8 @@
 #include "lcd.h"
 
 
-uint8_t  canvas[ROW+1][COL] =
+uint8_t  canvas[ROW][COL] =
 {
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -422,7 +421,7 @@ uint8_t pipes_bot[2][25][12] =
 };
 
 // Global Variable
-short curheight = 31;
+short curheight = 32;
 short isgameover = 0;
 short i = 63;
 short j = 89;
@@ -450,10 +449,11 @@ void generate_row(short curRow) {
     GPIOC->BSRR = 1<<LAT;		//LAT;
 
     // clear the target row value and set it to current row value
-    if (curRow != 32){
+    if(curRow != ROW){
     	GPIOC->BRR = 0b111111<<PINA;	//SE0;
     	GPIOC->BSRR = curRow<<PINA;	//SE0;
     }
+
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -464,7 +464,7 @@ void generate_image() {
     // clear output values for pins
     //GPIOC->BRR = 0b11111111111111;
     // print the image row by row
-    for (short i = 0; i < ROW+1; i++) {
+    for (short i = 0; i <= ROW; i++) {
         generate_row(i);
     }
 }
@@ -564,19 +564,19 @@ void draw_bird(short index) {
 	}
 
 	if(curheight >= ROW){
-		if((canvas[curheight - 32][19] == (G << 3)) || (canvas[curheight - 32][26] == (G << 3)) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
+		if(canvas[curheight - 32][19] != 0 || canvas[curheight - 32][26] != 0 || canvas[curheight - 25][19] != 0 || canvas[curheight - 25][26] != 0){
 			isgameover = 1;
 		}
 	}
 
 	else if(curheight < ROW && curheight + 7 >= ROW){
-		if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
+		if(canvas[curheight][19] != 0 || canvas[curheight][26] != 0 || canvas[curheight - 25][19] != 0 || canvas[curheight - 25][26] != 0){
 			isgameover = 1;
 		}
 	}
 
 	else if(curheight + 7 < ROW){
-		if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight + 7][19] == G || canvas[curheight + 7][26] == G){
+		if((canvas[curheight][19] != 0) || (canvas[curheight][26] != 0) || canvas[curheight + 7][19] != 0 || canvas[curheight + 7][26] != 0){
 			isgameover = 1;
 		}
 	}
@@ -663,8 +663,7 @@ void init_timer3(){
 void EXTI4_15_IRQHandler() {
 	short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 	short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
-	curheight -= 6;
-
+	//curheight -= 6;
 
 	if(curheight >= ROW){
 		if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
@@ -684,12 +683,14 @@ void EXTI4_15_IRQHandler() {
 		}
 	}
 
+	curheight -= 6;
 	mask_canvas(curheight + 6, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[2]);
 
 	if(isgameover == 1){
 		gameover();
 	}
+
 	EXTI->PR |= EXTI_PR_PR8;
 }
 
@@ -719,84 +720,44 @@ void TIM3_IRQHandler(){
 		c = rand() % 2;
 	}
 
-	//bird_fly();
-	//curheight += 2;
-	//draw_bird(1);
 	draw_background();
-	/*
-	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
-		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
-		curheight -= 6;
 
-		if(curheight >= ROW){
-			if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
-				isgameover = 1;
-			}
-		}
-
-		else if((curheight < ROW) && (curheight + 7 >= ROW)){
-			if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
-				isgameover = 1;
-			}
-		}
-
-		else if(curheight + 7 < ROW){
-			if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight + 7][22] == G || canvas[curheight + 7][28] == G){
-				isgameover = 1;
-			}
-		}
-
-		mask_canvas(curheight + 6, 20, height, width, bird[0]);
-		mask_canvas(curheight, 20, height, width, bird[2]);
-
-		if(isgameover == 1){
-			gameover();
-		}
-	}*/
-
-	//else{
 	short height = (short)sizeof(bird[1]) / sizeof(bird[1][0]);
 	short width = (short)sizeof(bird[1][0]) / sizeof(bird[1][0][0]);
 	curheight += 1;
 
 	if(curheight >= ROW){
-		if((canvas[curheight - 32][22] == (G << 3)) || (canvas[curheight - 32][28] == (G << 3)) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+		if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
 			isgameover = 1;
 		}
 	}
 
-	else if((curheight < ROW) && (curheight + 7 >= ROW)){
-		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight - 25][22] == (G << 3) || canvas[curheight - 25][28] == (G << 3)){
+	else if(curheight < ROW && curheight + 7 >= ROW){
+		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
 			isgameover = 1;
 		}
 	}
 
-	else if(curheight + 7 < ROW){
-		if((canvas[curheight][22] == G) || (canvas[curheight][28] == G) || canvas[curheight + 7][22] == G || canvas[curheight + 7][28] == G){
+	else if(curheight < ROW && curheight + 7 < ROW){
+		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
 			isgameover = 1;
 		}
-
 	}
+
+	//curheight += 1;
 	mask_canvas(curheight - 1, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[1]);
 
 	if(isgameover == 1){
 		gameover();
 	}
-	//}
-
 
 	if(curheight >= 49){
 		isgameover = 1;
 		gameover();
 	}
 
-	/*if(isgameover == 1){
-		gameover();
-	}*/
-
-	if(i == 8 || j == 8 || k == 8){
+	if(i == 16 || j == 16 || k == 16){
 		score++;
 	}
 
@@ -808,13 +769,7 @@ void TIM3_IRQHandler(){
 
 void gameover(){
 	TIM3->CR1 &= ~TIM_CR1_CEN;
-	TIM6->CR1 &= ~TIM_CR1_CEN;
-	//RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
-	//RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
-	/*if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
-	}*/
+
 	while(1){
 		draw_gameover();
 		generate_image();
@@ -822,14 +777,11 @@ void gameover(){
 }
 
 void start_game() {
-	// clear canvas
 	clear_display();
 
 	init_timer6();
 	init_timer3();
 	while (!isgameover) {
-		//nano_wait(10000000);
-		//bird_fly();
 		lcd_display_score(score);
 	}
 

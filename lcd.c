@@ -12,14 +12,6 @@
 #include "init.h"
 #include <string.h>
 
-uint16_t dispmem[34] = {
-        0x080 + 0,
-        0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220,
-        0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220,
-        0x080 + 64,
-        0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220,
-        0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220, 0x220,
-};
 
 // These are function pointers.  They can be called like functions
 void (*cmd)(char b) = 0;
@@ -74,35 +66,38 @@ void spi_init_lcd(void) {
 	generic_lcd_startup();
 }
 
-void dma_display1(const char *s) {
-	int x;
-	for(x=0; x<16; x+=1)
-		if (s[x])
-			dispmem[x+1] = 0x200 + s[x];
-		else
-			break;
-	for(   ; x<16; x+=1)
-		dispmem[x+1] = 0x220;
+void nondma_display1(const char *s) {
+    // put the cursor on the beginning of the first line (offset 0).
+    cmd(0x80 + 0);
+    int x;
+    for(x=0; x<16; x+=1)
+        if (s[x])
+            data(s[x]);
+        else
+            break;
+    for(   ; x<16; x+=1)
+        data(' ');
+}
 
-	RCC->AHBENR |= RCC_AHBENR_DMA1EN;
-	DMA1_Channel5->CCR &= ~DMA_CCR_EN;
-	DMA1_Channel5->CMAR = &dispmem;
-	DMA1_Channel5->CPAR = &(SPI2->DR);
-	DMA1_Channel5->CNDTR = sizeof dispmem;
-	DMA1_Channel5->CCR &= ~DMA_CCR_MSIZE;
-	DMA1_Channel5->CCR &= ~DMA_CCR_PSIZE;
-	DMA1_Channel5->CCR |= DMA_CCR_DIR;
-	DMA1_Channel5->CCR |= DMA_CCR_MINC;
-	DMA1_Channel5->CCR &= ~DMA_CCR_PL;
-	SPI2->CR2 |= SPI_CR2_TXDMAEN;
-	DMA1_Channel5->CCR |= DMA_CCR_EN;
+void nondma_display2(const char *s) {
+    // put the cursor on the beginning of the second line (offset 64).
+    cmd(0x80 + 64);
+    int x;
+    for(x=0; x<16; x+=1)
+        if (s[x] != '\0')
+            data(s[x]);
+        else
+            break;
+    for(   ; x<16; x+=1)
+        data(' ');
 }
 
 void init_lcd_all(void) {
 	// Configure the function pointers.
 	cmd = spi_cmd;
 	data = spi_data;
-	display1 = dma_display1;
+	display1 = nondma_display1;
+	display2 = nondma_display2;
 	// Initialize the display.
 	spi_init_lcd();
 }
