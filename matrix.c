@@ -420,7 +420,7 @@ uint8_t pipes_bot[2][25][12] =
 };
 
 // Global Variable
-short curheight = 31;
+short curheight = 26;
 short isgameover = 0;
 short makegameover = 0;
 short i = 63;
@@ -434,42 +434,76 @@ int offset = 0;
 #define RATE 100000
 #define N 750
 short int wavetable[N];
-float notes[34] =
+float notes[] =
 {      //C5     C#      D       D#      E       F       F#      G       G#     A     A#      B
 		//523, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99, 830.61, 880, 932.33, 987.77
-		1046.50, //C6 with upper octave
+		/*2093, //C6 with upper octave
 		0,		 //Blank
-		783.99,	 //G5
+		1568,	 //G5
 		0,		 //Blank
-		659.26,  //E5
+		1318.52,  //E5
 		0,		 //Blank
-		880, 	 //A5
-		0,
-		987.77,  //B5
-		0,
-		932.33,  //A#5
-		0,
-		880,     //A5
-		0,
-		783.99,  //G5
-		0,
-		1046.50, //C6
-		0,
-		1567.98, //G6
-		0,
-		1760.00, //A6
+		1760, 	 //A5
+		1975.54,  //B5
+		1864.66,  //A#5
+		1760,     //A5
+		1568,  //G5
+		2093, //C6
+		3135.96, //G6
+		3520, //A6
 		0,		 //Blank
-		1396.91, //F6
-		0,
-		1567.98, //G6
+		2793.82, //F6
+		3135.96, //G6
 		0,		 //Blank
-		1318.51, //E6
+		2637.02, //E6
+		2093, //C6
+		2349.32, //D6
+		1975.54,	 //B5*/
+		2637,
+		2637,
 		0,
-		1046.50, //C6
+		2637,
 		0,
-		1174.66, //D6
+		2093,
+		2637,
 		0,
-		987.77,	 //B5
+		3136,
+		0,
+		0,
+		0,
+		1568,
+		0,
+		0,
+		0,
+		2093,
+		0,
+		0,
+		1568,
+		0,
+		0,
+		1319,
+		0,
+		0,
+		1760,
+		1976,
+		0,
+		1865,
+		1760,
+		0,
+		1568,
+		2637,
+		3136,
+		3520,
+		0,
+		2794,
+		3136,
+		0,
+		2637,
+		0,
+		2093,
+		2349,
+		1976,
+		0,
 		0
 };
 
@@ -636,12 +670,13 @@ void TIM6_DAC_IRQHandler(){
 	int sample = wavetable[offset >> 16];
 	sample = sample / 16 + 2048;
 
+	/*
 	if(sample > 4095){
 		sample = 4095;
 	}
 	else if(sample < 0){
 		sample = 0;
-	}
+	}*/
 
 	DAC->DHR12R1 = sample;
 }
@@ -649,8 +684,8 @@ void TIM6_DAC_IRQHandler(){
 void init_timer15(){
 	RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
 	TIM15->CR1 &= ~TIM_CR1_CEN;
-	TIM15->PSC = 2400 - 1;
-	TIM15->ARR = 10000 - 1;
+	TIM15->PSC = 480 - 1;
+	TIM15->ARR = 35000 - 1;
 	TIM15->DIER |= TIM_DIER_UIE;
 	TIM15->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM15_IRQn;
@@ -659,7 +694,7 @@ void init_timer15(){
 void TIM15_IRQHandler(){
 	TIM15->SR &= ~TIM_SR_UIF;
 
-	if(noteind == 34){
+	if(noteind >= sizeof(notes) / sizeof(notes[0])){
 		noteind = 0;
 	}
 
@@ -713,6 +748,69 @@ void EXTI4_15_IRQHandler() {
 
 	if(curheight >= ROW){
 		if(canvas[curheight - 32][20] == (G << 3) ||
+		canvas[curheight - 31][20] == (G << 3) ||
+		canvas[curheight - 30][20] == (G << 3) ||
+		canvas[curheight - 29][20] == (G << 3) ||
+		canvas[curheight - 28][20] == (G << 3) ||
+		canvas[curheight - 27][20] == (G << 3) ||
+		canvas[curheight - 26][20] == (G << 3) ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 31][27] == (G << 3) ||
+		canvas[curheight - 30][27] == (G << 3) ||
+		canvas[curheight - 29][27] == (G << 3) ||
+		canvas[curheight - 28][27] == (G << 3) ||
+		canvas[curheight - 27][27] == (G << 3) ||
+		canvas[curheight - 26][27] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
+		}
+	}
+
+	if(curheight < ROW && curheight + 7 >= ROW){
+		if(canvas[curheight - 32][20] == G ||
+		canvas[curheight - 31][20] == G ||
+		canvas[curheight - 30][20] == G ||
+		canvas[curheight - 29][20] == G ||
+		canvas[curheight - 28][20] == G ||
+		canvas[curheight - 27][20] == G ||
+		canvas[curheight - 26][20] == G ||
+		canvas[curheight - 25][20] == G ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 31][27] == (G << 3) ||
+		canvas[curheight - 30][27] == (G << 3) ||
+		canvas[curheight - 29][27] == (G << 3) ||
+		canvas[curheight - 28][27] == (G << 3) ||
+		canvas[curheight - 27][27] == (G << 3) ||
+		canvas[curheight - 26][27] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
+		}
+	}
+
+	if(curheight + 7 < ROW){
+		if(canvas[curheight - 32][20] == (G << 3)||
+		canvas[curheight - 31][20] == (G << 3) ||
+		canvas[curheight - 30][20] == (G << 3) ||
+		canvas[curheight - 29][20] == (G << 3) ||
+		canvas[curheight - 28][20] == (G << 3) ||
+		canvas[curheight - 27][20] == (G << 3) ||
+		canvas[curheight - 26][20] == (G << 3) ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 31][27] == (G << 3) ||
+		canvas[curheight - 30][27] == (G << 3) ||
+		canvas[curheight - 29][27] == (G << 3) ||
+		canvas[curheight - 28][27] == (G << 3) ||
+		canvas[curheight - 27][27] == (G << 3) ||
+		canvas[curheight - 26][27] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
+		}
+	}
+
+	if(curheight >= ROW){
+		if(canvas[curheight - 32][20] == (G << 3) ||
 		canvas[curheight - 32][21] == (G << 3) ||
 		canvas[curheight - 32][22] == (G << 3) ||
 		canvas[curheight - 32][23] == (G << 3) ||
@@ -732,7 +830,7 @@ void EXTI4_15_IRQHandler() {
 		}
 	}
 
-	else if(curheight < ROW && curheight + 7 >= ROW){
+	if(curheight < ROW && curheight + 7 >= ROW){
 		if(canvas[curheight][20] == G ||
 		canvas[curheight][21] == G ||
 		canvas[curheight][22] == G ||
@@ -753,7 +851,7 @@ void EXTI4_15_IRQHandler() {
 		}
 	}
 
-	else if(curheight + 7 < ROW){
+	if(curheight + 7 < ROW){
 		if(canvas[curheight][20] == G ||
 		canvas[curheight][21] == G ||
 		canvas[curheight][22] == G ||
@@ -773,6 +871,55 @@ void EXTI4_15_IRQHandler() {
 			makegameover = 1;
 		}
 	}
+
+	/*
+	if(curheight >= ROW){
+		if(canvas[curheight - 32][20] == (G << 3) ||
+		canvas[curheight - 32][21] == (G << 3) ||
+		canvas[curheight - 32][22] == (G << 3) ||
+		canvas[curheight - 32][23] == (G << 3) ||
+		canvas[curheight - 32][24] == (G << 3) ||
+		canvas[curheight - 32][25] == (G << 3) ||
+		canvas[curheight - 32][26] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3)) {
+			makegameover = 1;
+		}
+	}else {
+		if(canvas[curheight][20] == G ||
+		canvas[curheight][21] == G ||
+		canvas[curheight][22] == G ||
+		canvas[curheight][23] == G ||
+		canvas[curheight][24] == G ||
+		canvas[curheight][25] == G ||
+		canvas[curheight][26] == G ||
+		canvas[curheight][27] == G) {
+			makegameover = 1;
+		}
+	}
+
+	if(curheight + 7 >= ROW){
+		if(canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 25][21] == (G << 3) ||
+		canvas[curheight - 25][22] == (G << 3) ||
+		canvas[curheight - 25][23] == (G << 3) ||
+		canvas[curheight - 25][24] == (G << 3) ||
+		canvas[curheight - 25][25] == (G << 3) ||
+		canvas[curheight - 25][26] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)) {
+			makegameover = 1;
+		}
+	}else {
+		if(canvas[curheight + 7][20] == G ||
+		canvas[curheight + 7][21] == G ||
+		canvas[curheight + 7][22] == G ||
+		canvas[curheight + 7][23] == G ||
+		canvas[curheight + 7][24] == G ||
+		canvas[curheight + 7][25] == G ||
+		canvas[curheight + 7][26] == G ||
+		canvas[curheight + 7][27] == G) {
+			makegameover = 1;
+		}
+	}*/
 
 	/*
 	if(i <= 27 && i >= 20){
@@ -873,6 +1020,70 @@ void TIM3_IRQHandler(){
 	short width = (short)sizeof(bird[1][0]) / sizeof(bird[1][0][0]);
 	curheight += 1;
 
+	/*
+	if(curheight >= ROW){
+		if(canvas[curheight - 32][20] == (G << 3) ||
+		canvas[curheight - 31][20] == (G << 3) ||
+		canvas[curheight - 30][20] == (G << 3) ||
+		canvas[curheight - 29][20] == (G << 3) ||
+		canvas[curheight - 28][20] == (G << 3) ||
+		canvas[curheight - 27][20] == (G << 3) ||
+		canvas[curheight - 26][20] == (G << 3) ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 31][27] == (G << 3) ||
+		canvas[curheight - 30][27] == (G << 3) ||
+		canvas[curheight - 29][27] == (G << 3) ||
+		canvas[curheight - 28][27] == (G << 3) ||
+		canvas[curheight - 27][27] == (G << 3) ||
+		canvas[curheight - 26][27] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
+		}
+	}
+
+	if(curheight < ROW && curheight + 7 >= ROW){
+		if(canvas[curheight - 32][20] == G ||
+		canvas[curheight - 31][20] == G ||
+		canvas[curheight - 30][20] == G ||
+		canvas[curheight - 29][20] == G ||
+		canvas[curheight - 28][20] == G ||
+		canvas[curheight - 27][20] == G ||
+		canvas[curheight - 26][20] == G ||
+		canvas[curheight - 25][20] == G ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 31][27] == (G << 3) ||
+		canvas[curheight - 30][27] == (G << 3) ||
+		canvas[curheight - 29][27] == (G << 3) ||
+		canvas[curheight - 28][27] == (G << 3) ||
+		canvas[curheight - 27][27] == (G << 3) ||
+		canvas[curheight - 26][27] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
+		}
+	}
+
+	if(curheight + 7 < ROW){
+		if(canvas[curheight - 32][20] == (G << 3)||
+		canvas[curheight - 31][20] == (G << 3) ||
+		canvas[curheight - 30][20] == (G << 3) ||
+		canvas[curheight - 29][20] == (G << 3) ||
+		canvas[curheight - 28][20] == (G << 3) ||
+		canvas[curheight - 27][20] == (G << 3) ||
+		canvas[curheight - 26][20] == (G << 3) ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 31][27] == (G << 3) ||
+		canvas[curheight - 30][27] == (G << 3) ||
+		canvas[curheight - 29][27] == (G << 3) ||
+		canvas[curheight - 28][27] == (G << 3) ||
+		canvas[curheight - 27][27] == (G << 3) ||
+		canvas[curheight - 26][27] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
+		}
+	}*/
+
 	if(curheight >= ROW){
 		if(canvas[curheight - 32][20] == (G << 3) ||
 		canvas[curheight - 32][21] == (G << 3) ||
@@ -894,7 +1105,7 @@ void TIM3_IRQHandler(){
 		}
 	}
 
-	else if(curheight < ROW && curheight + 7 >= ROW){
+	if(curheight < ROW && curheight + 7 >= ROW){
 		if(canvas[curheight][20] == G ||
 		canvas[curheight][21] == G ||
 		canvas[curheight][22] == G ||
@@ -915,7 +1126,7 @@ void TIM3_IRQHandler(){
 		}
 	}
 
-	else if(curheight + 7 < ROW){
+	if(curheight + 7 < ROW){
 		if(canvas[curheight][20] == G ||
 		canvas[curheight][21] == G ||
 		canvas[curheight][22] == G ||
@@ -935,6 +1146,55 @@ void TIM3_IRQHandler(){
 			makegameover = 1;
 		}
 	}
+
+	/*
+	if(curheight >= ROW){
+		if(canvas[curheight - 32][20] == (G << 3) ||
+		canvas[curheight - 32][21] == (G << 3) ||
+		canvas[curheight - 32][22] == (G << 3) ||
+		canvas[curheight - 32][23] == (G << 3) ||
+		canvas[curheight - 32][24] == (G << 3) ||
+		canvas[curheight - 32][25] == (G << 3) ||
+		canvas[curheight - 32][26] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3)) {
+			makegameover = 1;
+		}
+	}else {
+		if(canvas[curheight][20] == G ||
+		canvas[curheight][21] == G ||
+		canvas[curheight][22] == G ||
+		canvas[curheight][23] == G ||
+		canvas[curheight][24] == G ||
+		canvas[curheight][25] == G ||
+		canvas[curheight][26] == G ||
+		canvas[curheight][27] == G) {
+			makegameover = 1;
+		}
+	}
+
+	if(curheight + 7 >= ROW){
+		if(canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 25][21] == (G << 3) ||
+		canvas[curheight - 25][22] == (G << 3) ||
+		canvas[curheight - 25][23] == (G << 3) ||
+		canvas[curheight - 25][24] == (G << 3) ||
+		canvas[curheight - 25][25] == (G << 3) ||
+		canvas[curheight - 25][26] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)) {
+			makegameover = 1;
+		}
+	}else {
+		if(canvas[curheight + 7][20] == G ||
+		canvas[curheight + 7][21] == G ||
+		canvas[curheight + 7][22] == G ||
+		canvas[curheight + 7][23] == G ||
+		canvas[curheight + 7][24] == G ||
+		canvas[curheight + 7][25] == G ||
+		canvas[curheight + 7][26] == G ||
+		canvas[curheight + 7][27] == G) {
+			makegameover = 1;
+		}
+	}*/
 
 	//|| (j <= 27 && j >= 20) || (k <= 27 && k >= 20)){
 	/*
@@ -1027,9 +1287,9 @@ void gameover(){
 void start_game() {
 	clear_display();
 
-	init_wavetable();
 	init_timer6();
 	init_timer15();
+	init_wavetable();
 	init_timer2();
 	init_timer3();
 
