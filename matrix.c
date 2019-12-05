@@ -432,13 +432,19 @@ uint8_t c = 1;
 short score = 0;
 int offset = 0;
 #define RATE 100000
-#define N 1000
-short int wavetable[100];
+#define N 750
+short int wavetable[N];
+float notes[12] =
+{      //C     C#      D       D#      E       F       F#      G       G#     A     A#      B
+		523, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99, 830.61, 880, 932.33, 987.77
+};
+short noteind = 0;
+int step;
 void init_wavetable(void)
 {
 	int x;
-	for(x=0; x<100; x++) {
-		wavetable[x] = 32767 * sin(2 * M_PI * x / 100);
+	for(x=0; x<N; x++) {
+		wavetable[x] = 32767 * sin(2 * M_PI * x / N);
 	}
 }
 
@@ -464,7 +470,6 @@ void generate_row(short curRow) {
     	GPIOC->BRR = 0b111111<<PINA;	//SE0;
     	GPIOC->BSRR = curRow<<PINA;	//SE0;
     }
-
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -641,29 +646,51 @@ void init_timer6(){
 	RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
 	TIM6->CR1 &= ~TIM_CR1_CEN;
 	TIM6->PSC = 10 - 1;
-	TIM6->ARR = 480 - 1;
+	TIM6->ARR = 100 - 1;
 	TIM6->DIER |= TIM_DIER_UIE;
 	TIM6->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM6_DAC_IRQn;
 }
 
 void TIM6_DAC_IRQHandler(){
-	//TIM6->CR1 &= ~TIM_CR1_CEN;
-	//DAC->SWTRIGR |= DAC_SWTRIGR_SWTRIG1;
+	DAC->SWTRIGR |= DAC_SWTRIGR_SWTRIG1;
 	TIM6->SR &= ~TIM_SR_UIF;
 
-	if(offset >= sizeof(wavetable) / sizeof(wavetable[0])){
-		offset = 0;
+	offset += step;
+
+	if((offset >> 16) >= N){
+		offset -= N << 16;
 	}
 
-	int temp = (wavetable[offset] + 32768) >> 4;
-	DAC->DHR12R1 = temp;
-	DAC->SWTRIGR |= DAC_SWTRIGR_SWTRIG1;
+	int sample = wavetable[offset >> 16];
+	sample = sample / 16 + 2048;
 
-	offset++;
-	/*if ((TIM6->SR & TIM_SR_UIF) != 0) {
-		TIM6->SR &= ~TIM_SR_UIF;
-	}*/
+	if(sample > 4095){
+		sample = 4095;
+	}
+	else if(sample < 0){
+		sample = 0;
+	}
+
+	DAC->DHR12R1 = sample;
+}
+
+void init_timer15(){
+	RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
+	TIM15->CR1 &= ~TIM_CR1_CEN;
+	TIM15->PSC = 2400 - 1;
+	TIM15->ARR = 10000 - 1;
+	TIM15->DIER |= TIM_DIER_UIE;
+	TIM15->CR1 |= TIM_CR1_CEN;
+	NVIC->ISER[0] = 1 << TIM15_IRQn;
+}
+
+void TIM15_IRQHandler(){
+	TIM15->SR &= ~TIM_SR_UIF;
+	if(noteind == 12){
+		noteind = 0;
+	}
+	step = notes[noteind++] * N / RATE * (1 << 16); //C~B
 }
 
 void init_timer2(){
@@ -811,6 +838,7 @@ void gameover(){
 	TIM3->CR1 &= ~TIM_CR1_CEN;
 	TIM2->CR1 &= ~TIM_CR1_CEN;
 	TIM6->CR1 &= ~TIM_CR1_CEN;
+	TIM15->CR1 &= ~TIM_CR1_CEN;
 
 	while(1){
 		draw_gameover();
@@ -823,6 +851,7 @@ void start_game() {
 
 	init_wavetable();
 	init_timer6();
+	init_timer15();
 	init_timer2();
 	init_timer3();
 	while (!isgameover) {
