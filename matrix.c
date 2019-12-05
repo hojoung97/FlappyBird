@@ -434,9 +434,26 @@ int offset = 0;
 #define RATE 100000
 #define N 750
 short int wavetable[N];
-float notes[12] =
-{      //C     C#      D       D#      E       F       F#      G       G#     A     A#      B
-		523, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99, 830.61, 880, 932.33, 987.77
+float notes[17] =
+{      //C5     C#      D       D#      E       F       F#      G       G#     A     A#      B
+		//523, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99, 830.61, 880, 932.33, 987.77
+		1046.50, //C6 with upper octave
+		783.99,	 //G5
+		659.26,  //E5
+		880, 	 //A5
+		987.77,  //B5
+		932.33,  //A#5
+		880,     //A5
+		783.99,  //G5
+		1046.50, //C6
+		1567.98, //G6
+		1760.00, //A6
+		1396.91, //F6
+		1567.98, //G6
+		1318.51, //E6
+		1046.50, //C6
+		1174.66, //D6
+		987.77	 //B5
 };
 short noteind = 0;
 int step;
@@ -687,9 +704,11 @@ void init_timer15(){
 
 void TIM15_IRQHandler(){
 	TIM15->SR &= ~TIM_SR_UIF;
+
 	if(noteind == 12){
 		noteind = 0;
 	}
+
 	step = notes[noteind++] * N / RATE * (1 << 16); //C~B
 }
 
