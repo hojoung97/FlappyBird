@@ -262,7 +262,7 @@ uint8_t bird[3][7][8] =
 				{0, 0, 0, 0, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
         },
 
 		{
@@ -272,7 +272,7 @@ uint8_t bird[3][7][8] =
 				{0, Y, Y, Y, Y, W, W, W},
 				{W, W, W, W, Y, R, R, R},
 				{W, W, W, W, Y, R, 0, 0},
-				{0, 0, Y, Y, Y, R, R, R},
+				{0, 0, Y, Y, Y, R, R, R}
 		},
 
 		{
@@ -282,7 +282,7 @@ uint8_t bird[3][7][8] =
 				{0, Y, Y, Y, Y, W, W, W},
 				{0, Y, W, W, Y, R, R, R},
 				{0, W, W, W, Y, R, 0, 0},
-				{W, W, W, Y, Y, R, R, R},
+				{W, W, W, Y, Y, R, R, R}
 		}
 };
 
@@ -420,7 +420,7 @@ uint8_t pipes_bot[2][25][12] =
 };
 
 // Global Variable
-short curheight = 32;
+short curheight = 31;
 short isgameover = 0;
 short makegameover = 0;
 short i = 63;
@@ -434,26 +434,43 @@ int offset = 0;
 #define RATE 100000
 #define N 750
 short int wavetable[N];
-float notes[17] =
+float notes[34] =
 {      //C5     C#      D       D#      E       F       F#      G       G#     A     A#      B
 		//523, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99, 830.61, 880, 932.33, 987.77
 		1046.50, //C6 with upper octave
+		0,		 //Blank
 		783.99,	 //G5
+		0,		 //Blank
 		659.26,  //E5
+		0,		 //Blank
 		880, 	 //A5
+		0,
 		987.77,  //B5
+		0,
 		932.33,  //A#5
+		0,
 		880,     //A5
+		0,
 		783.99,  //G5
+		0,
 		1046.50, //C6
+		0,
 		1567.98, //G6
+		0,
 		1760.00, //A6
+		0,		 //Blank
 		1396.91, //F6
+		0,
 		1567.98, //G6
+		0,		 //Blank
 		1318.51, //E6
+		0,
 		1046.50, //C6
+		0,
 		1174.66, //D6
-		987.77	 //B5
+		0,
+		987.77,	 //B5
+		0
 };
 
 short noteind = 0;
@@ -488,7 +505,6 @@ void generate_row(short curRow) {
     	GPIOC->BRR = 0b111111<<PINA;	//SE0;
     	GPIOC->BSRR = curRow<<PINA;	//SE0;
     }
-
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -643,11 +659,11 @@ void init_timer15(){
 void TIM15_IRQHandler(){
 	TIM15->SR &= ~TIM_SR_UIF;
 
-	if(noteind == 12){
+	if(noteind == 34){
 		noteind = 0;
 	}
 
-	step = notes[noteind++] * N / RATE * (1 << 16); //C~B
+	step = notes[noteind++] * N / RATE * (1 << 16);
 }
 
 void init_timer2(){
@@ -696,23 +712,128 @@ void EXTI4_15_IRQHandler() {
 	curheight -= 6;
 
 	if(curheight >= ROW){
-		if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+		if(canvas[curheight - 32][20] == (G << 3) ||
+		canvas[curheight - 32][21] == (G << 3) ||
+		canvas[curheight - 32][22] == (G << 3) ||
+		canvas[curheight - 32][23] == (G << 3) ||
+		canvas[curheight - 32][24] == (G << 3) ||
+		canvas[curheight - 32][25] == (G << 3) ||
+		canvas[curheight - 32][26] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 25][21] == (G << 3) ||
+		canvas[curheight - 25][22] == (G << 3) ||
+		canvas[curheight - 25][23] == (G << 3) ||
+		canvas[curheight - 25][24] == (G << 3) ||
+		canvas[curheight - 25][25] == (G << 3) ||
+		canvas[curheight - 25][26] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
 			makegameover = 1;
 		}
 	}
 
 	else if(curheight < ROW && curheight + 7 >= ROW){
-		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+		if(canvas[curheight][20] == G ||
+		canvas[curheight][21] == G ||
+		canvas[curheight][22] == G ||
+		canvas[curheight][23] == G ||
+		canvas[curheight][24] == G ||
+		canvas[curheight][25] == G ||
+		canvas[curheight][26] == G ||
+		canvas[curheight][27] == G ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 25][21] == (G << 3) ||
+		canvas[curheight - 25][22] == (G << 3) ||
+		canvas[curheight - 25][23] == (G << 3) ||
+		canvas[curheight - 25][24] == (G << 3) ||
+		canvas[curheight - 25][25] == (G << 3) ||
+		canvas[curheight - 25][26] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
 			makegameover = 1;
 		}
 	}
 
-	else if(curheight < ROW && curheight + 7 < ROW){
-		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
+	else if(curheight + 7 < ROW){
+		if(canvas[curheight][20] == G ||
+		canvas[curheight][21] == G ||
+		canvas[curheight][22] == G ||
+		canvas[curheight][23] == G ||
+		canvas[curheight][24] == G ||
+		canvas[curheight][25] == G ||
+		canvas[curheight][26] == G ||
+		canvas[curheight][27] == G ||
+		canvas[curheight + 7][20] == G ||
+		canvas[curheight + 7][21] == G ||
+		canvas[curheight + 7][22] == G ||
+		canvas[curheight + 7][23] == G ||
+		canvas[curheight + 7][24] == G ||
+		canvas[curheight + 7][25] == G ||
+		canvas[curheight + 7][26] == G ||
+		canvas[curheight + 7][27] == G){
 			makegameover = 1;
 		}
 	}
 
+	/*
+	if(i <= 27 && i >= 20){
+		if(curheight >= ROW){
+			if(pipes_bot[a][curheight - 32][i] == G || pipes_bot[a][curheight - 25][i] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if(pipes_top[a][curheight][i] == G || pipes_bot[a][curheight - 25][i] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((pipes_top[a][curheight][i] == G) || (pipes_top[a][curheight + 7][i] == G)){
+				makegameover = 1;
+			}
+		}
+	}
+
+	if(j <= 27 && j >= 20){
+		if(curheight >= ROW){
+			if(pipes_bot[b][curheight - 32][j] == G || pipes_bot[b][curheight - 25][j] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if(pipes_top[b][curheight][j] == G || pipes_bot[b][curheight - 25][j] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((pipes_top[b][curheight][j] == G) || (pipes_top[b][curheight + 7][j] == G)){
+				makegameover = 1;
+			}
+		}
+	}
+
+	if(k <= 27 && k >= 20){
+		if(curheight >= ROW){
+			if(pipes_bot[c][curheight - 32][k] == G || pipes_bot[c][curheight - 25][k] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if(pipes_top[c][curheight][k] == G || pipes_bot[c][curheight - 25][k] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((pipes_top[c][curheight][k] == G) || (pipes_top[c][curheight + 7][k] == G)){
+				makegameover = 1;
+			}
+		}
+	}*/
 
 	mask_canvas(curheight + 6, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[2]);
@@ -753,23 +874,129 @@ void TIM3_IRQHandler(){
 	curheight += 1;
 
 	if(curheight >= ROW){
-		if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+		if(canvas[curheight - 32][20] == (G << 3) ||
+		canvas[curheight - 32][21] == (G << 3) ||
+		canvas[curheight - 32][22] == (G << 3) ||
+		canvas[curheight - 32][23] == (G << 3) ||
+		canvas[curheight - 32][24] == (G << 3) ||
+		canvas[curheight - 32][25] == (G << 3) ||
+		canvas[curheight - 32][26] == (G << 3) ||
+		canvas[curheight - 32][27] == (G << 3) ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 25][21] == (G << 3) ||
+		canvas[curheight - 25][22] == (G << 3) ||
+		canvas[curheight - 25][23] == (G << 3) ||
+		canvas[curheight - 25][24] == (G << 3) ||
+		canvas[curheight - 25][25] == (G << 3) ||
+		canvas[curheight - 25][26] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
 			makegameover = 1;
 		}
 	}
 
 	else if(curheight < ROW && curheight + 7 >= ROW){
-		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+		if(canvas[curheight][20] == G ||
+		canvas[curheight][21] == G ||
+		canvas[curheight][22] == G ||
+		canvas[curheight][23] == G ||
+		canvas[curheight][24] == G ||
+		canvas[curheight][25] == G ||
+		canvas[curheight][26] == G ||
+		canvas[curheight][27] == G ||
+		canvas[curheight - 25][20] == (G << 3) ||
+		canvas[curheight - 25][21] == (G << 3) ||
+		canvas[curheight - 25][22] == (G << 3) ||
+		canvas[curheight - 25][23] == (G << 3) ||
+		canvas[curheight - 25][24] == (G << 3) ||
+		canvas[curheight - 25][25] == (G << 3) ||
+		canvas[curheight - 25][26] == (G << 3) ||
+		canvas[curheight - 25][27] == (G << 3)){
 			makegameover = 1;
 		}
 	}
 
-	else if(curheight < ROW && curheight + 7 < ROW){
-		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
+	else if(curheight + 7 < ROW){
+		if(canvas[curheight][20] == G ||
+		canvas[curheight][21] == G ||
+		canvas[curheight][22] == G ||
+		canvas[curheight][23] == G ||
+		canvas[curheight][24] == G ||
+		canvas[curheight][25] == G ||
+		canvas[curheight][26] == G ||
+		canvas[curheight][27] == G ||
+		canvas[curheight + 7][20] == G ||
+		canvas[curheight + 7][21] == G ||
+		canvas[curheight + 7][22] == G ||
+		canvas[curheight + 7][23] == G ||
+		canvas[curheight + 7][24] == G ||
+		canvas[curheight + 7][25] == G ||
+		canvas[curheight + 7][26] == G ||
+		canvas[curheight + 7][27] == G){
 			makegameover = 1;
 		}
 	}
 
+	//|| (j <= 27 && j >= 20) || (k <= 27 && k >= 20)){
+	/*
+	if(i <= 27 && i >= 20){
+		if(curheight >= ROW){
+			if(pipes_bot[a][curheight - 32][i] == G || pipes_bot[a][curheight - 25][i] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if(pipes_top[a][curheight][i] == G || pipes_bot[a][curheight - 25][i] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((pipes_top[a][curheight][i] == G) || (pipes_top[a][curheight + 7][i] == G)){
+				makegameover = 1;
+			}
+		}
+	}
+
+	if(j <= 27 && j >= 20){
+		if(curheight >= ROW){
+			if(pipes_bot[b][curheight - 32][j] == G || pipes_bot[b][curheight - 25][j] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if(pipes_top[b][curheight][j] == G || pipes_bot[b][curheight - 25][j] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((pipes_top[b][curheight][j] == G) || (pipes_top[b][curheight + 7][j] == G)){
+				makegameover = 1;
+			}
+		}
+	}
+
+	if(k <= 27 && k >= 20){
+		if(curheight >= ROW){
+			if(pipes_bot[c][curheight - 32][k] == G || pipes_bot[c][curheight - 25][k] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight < ROW && curheight + 7 >= ROW){
+			if(pipes_top[c][curheight][k] == G || pipes_bot[c][curheight - 25][k] == G){
+				makegameover = 1;
+			}
+		}
+
+		else if(curheight + 7 < ROW){
+			if((pipes_top[c][curheight][k] == G) || (pipes_top[c][curheight + 7][k] == G)){
+				makegameover = 1;
+			}
+		}
+	}*/
 
 	mask_canvas(curheight - 1, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[1]);
@@ -785,9 +1012,11 @@ void TIM3_IRQHandler(){
 }
 
 void gameover(){
+	EXTI->IMR &= ~EXTI_IMR_MR8;
 	TIM3->CR1 &= ~TIM_CR1_CEN;
 	TIM2->CR1 &= ~TIM_CR1_CEN;
 	TIM6->CR1 &= ~TIM_CR1_CEN;
+	TIM15->CR1 &= ~TIM_CR1_CEN;
 
 	while(1){
 		draw_gameover();
@@ -799,10 +1028,11 @@ void start_game() {
 	clear_display();
 
 	init_wavetable();
-	init_timer15();
 	init_timer6();
+	init_timer15();
 	init_timer2();
 	init_timer3();
+
 	while (!isgameover) {
 		lcd_display_score(score);
 		if(curheight >= 50){

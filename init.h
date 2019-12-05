@@ -1,3 +1,10 @@
+/*
+ * init.h
+ *
+ *  Created on: 2019. 11. 26.
+ *      Author: ��ȣ��
+ */
+
 #ifndef INIT_H_
 #define INIT_H_
 
