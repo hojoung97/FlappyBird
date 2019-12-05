@@ -2,6 +2,8 @@
 #include "init.h"
 #include "lcd.h"
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 uint8_t  canvas[ROW][COL] =
 {
@@ -244,14 +246,14 @@ uint8_t background[7][COL] =
 {
 		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
 		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-		{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
+		{5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G},
+		{G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5},
+		{5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G},
+		{G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5},
+		{5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G, 5, G}
 };
 
-uint8_t bird[3][8][8] =
+uint8_t bird[3][7][8] =
 {
         {
         		{0, 0, 0, 0, 0, 0, 0, 0},
@@ -261,7 +263,6 @@ uint8_t bird[3][8][8] =
 				{0, 0, 0, 0, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 0, 0, 0}
         },
 
 		{
@@ -272,7 +273,6 @@ uint8_t bird[3][8][8] =
 				{W, W, W, W, Y, R, R, R},
 				{W, W, W, W, Y, R, 0, 0},
 				{0, 0, Y, Y, Y, R, R, R},
-				{0, 0, 0, 0, 0, 0, 0, 0}
 		},
 
 		{
@@ -283,7 +283,6 @@ uint8_t bird[3][8][8] =
 				{0, Y, W, W, Y, R, R, R},
 				{0, W, W, W, Y, R, 0, 0},
 				{W, W, W, Y, Y, R, R, R},
-				{W, W, 0, 0, 0, 0, 0, 0}
 		}
 };
 
@@ -423,6 +422,7 @@ uint8_t pipes_bot[2][25][12] =
 // Global Variable
 short curheight = 32;
 short isgameover = 0;
+short makegameover = 0;
 short i = 63;
 short j = 89;
 short k = 115;
@@ -432,6 +432,8 @@ uint8_t c = 1;
 short score = 0;
 int offset = 0;
 #define RATE 100000
+#define N 1000
+short int wavetable[100];
 #define N 750
 short int wavetable[N];
 float notes[17] =
@@ -455,6 +457,7 @@ float notes[17] =
 		1174.66, //D6
 		987.77	 //B5
 };
+
 short noteind = 0;
 int step;
 void init_wavetable(void)
@@ -487,6 +490,7 @@ void generate_row(short curRow) {
     	GPIOC->BRR = 0b111111<<PINA;	//SE0;
     	GPIOC->BSRR = curRow<<PINA;	//SE0;
     }
+
 
     // turn off LAT then OE
     GPIOC->BRR = 1<<LAT;		//LAT;
@@ -566,7 +570,6 @@ void draw_gameover() {
 	mask_canvas(5, 14, 9, 5, char_a); //A
 	mask_canvas(3, 19, 9, 7, char_m); //M
 	mask_canvas(5, 26, 10, 5, char_e); //E
-	//mask_canvas(9, 24, 11, 7, char_blank); //space
 	mask_canvas(7, 33, 9, 7, char_o); //O
 	mask_canvas(4, 40, 10, 7, char_v); //V
 	mask_canvas(5, 47, 10, 5, char_e); //E
@@ -576,77 +579,14 @@ void draw_gameover() {
 void draw_background() {
 	short height = (short)sizeof(background) / sizeof(background[0]);
 	short width = (short)sizeof(background[0]) / sizeof(background[0][0]);
-	mask_canvas(56, 0, height, width, background);
+	mask_canvas(57, 0, height, width, background);
 }
 
 void draw_bird(short index) {
-	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
-		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
-		curheight -= 6;
-		mask_canvas(curheight + 6, 20, height, width, bird[0]);
-		mask_canvas(curheight, 20, height, width, bird[2]);
-	}
-
-	else{
-		short height = (short)sizeof(bird[index]) / sizeof(bird[index][0]);
-		short width = (short)sizeof(bird[index][0]) / sizeof(bird[index][0][0]);
-		curheight += 2;
-		mask_canvas(curheight - 2, 20, height, width, bird[0]);
-		mask_canvas(curheight, 20, height, width, bird[index]);
-	}
-
-	if(curheight >= ROW){
-		if(canvas[curheight - 32][19] != 0 || canvas[curheight - 32][26] != 0 || canvas[curheight - 25][19] != 0 || canvas[curheight - 25][26] != 0){
-			isgameover = 1;
-		}
-	}
-
-	else if(curheight < ROW && curheight + 7 >= ROW){
-		if(canvas[curheight][19] != 0 || canvas[curheight][26] != 0 || canvas[curheight - 25][19] != 0 || canvas[curheight - 25][26] != 0){
-			isgameover = 1;
-		}
-	}
-
-	else if(curheight + 7 < ROW){
-		if((canvas[curheight][19] != 0) || (canvas[curheight][26] != 0) || canvas[curheight + 7][19] != 0 || canvas[curheight + 7][26] != 0){
-			isgameover = 1;
-		}
-	}
-
-	if(curheight >= 49){
-		isgameover = 1;
-	}
+	short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
+	short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
+	mask_canvas(curheight, 20, height, width, bird[index]);
 }
-
-/*void bird_fly(){
-	if((GPIOA->IDR & GPIO_IDR_8) == GPIO_IDR_8){
-		short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
-		short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
-		curheight -= 6;
-		mask_canvas(curheight + 6, 20, height, width, bird[0]);
-
-			if(curheight >= ROW){
-				if((canvas[curheight - 32][19] == (G << 3)) || (canvas[curheight - 32][26] == (G << 3)) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
-					isgameover = 1;
-				}
-			}
-
-			else if(curheight < ROW && curheight + 7 >= ROW){
-				if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight - 25][19] == (G << 3) || canvas[curheight - 25][26] == (G << 3)){
-					isgameover = 1;
-				}
-			}
-
-			else if(curheight < ROW && curheight + 7 < ROW){
-				if((canvas[curheight][19] == G) || (canvas[curheight][26] == G) || canvas[curheight + 7][19] == G || canvas[curheight + 7][26] == G){
-					isgameover = 1;
-				}
-			}
-
-		mask_canvas(curheight, 20, height, width, bird[2]);
-	}
-}*/
 
 void draw_pipe(short index, short col) {
 	short height = (short)sizeof(pipes_top[index]) / sizeof(pipes_top[index][0]);
@@ -727,7 +667,11 @@ void init_timer2(){
 
 void TIM2_IRQHandler(){
 	TIM2->CR1 &= ~TIM_CR1_CEN;
+
 	generate_image();
+	if (makegameover == 1) {
+		isgameover = 1;
+	}
 
 	if ((TIM2->SR & TIM_SR_UIF) != 0) {
 		TIM2->SR &= ~TIM_SR_UIF;
@@ -753,30 +697,27 @@ void EXTI4_15_IRQHandler() {
 
 	curheight -= 6;
 
-		if(curheight >= ROW){
-			if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
-				isgameover = 1;
-			}
+	if(curheight >= ROW){
+		if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
 		}
+	}
 
-		else if(curheight < ROW && curheight + 7 >= ROW){
-			if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
-				isgameover = 1;
-			}
+	else if(curheight < ROW && curheight + 7 >= ROW){
+		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
+			makegameover = 1;
 		}
+	}
 
-		else if(curheight < ROW && curheight + 7 < ROW){
-			if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
-				isgameover = 1;
-			}
+	else if(curheight < ROW && curheight + 7 < ROW){
+		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
+			makegameover = 1;
 		}
+	}
+
 
 	mask_canvas(curheight + 6, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[2]);
-
-	if(isgameover == 1){
-		gameover();
-	}
 
 	EXTI->PR |= EXTI_PR_PR8;
 }
@@ -815,33 +756,25 @@ void TIM3_IRQHandler(){
 
 	if(curheight >= ROW){
 		if((canvas[curheight - 32][20] == (G << 3)) || (canvas[curheight - 32][27] == (G << 3)) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
-			isgameover = 1;
+			makegameover = 1;
 		}
 	}
 
 	else if(curheight < ROW && curheight + 7 >= ROW){
 		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight - 25][20] == (G << 3) || canvas[curheight - 25][27] == (G << 3)){
-			isgameover = 1;
+			makegameover = 1;
 		}
 	}
 
 	else if(curheight < ROW && curheight + 7 < ROW){
 		if((canvas[curheight][20] == G) || (canvas[curheight][27] == G) || canvas[curheight + 7][20] == G || canvas[curheight + 7][27] == G){
-			isgameover = 1;
+			makegameover = 1;
 		}
 	}
 
+
 	mask_canvas(curheight - 1, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[1]);
-
-	if(isgameover == 1){
-		gameover();
-	}
-
-	if(curheight >= 49){
-		isgameover = 1;
-		gameover();
-	}
 
 	if(i == 16 || j == 16 || k == 16){
 		score++;
@@ -857,7 +790,6 @@ void gameover(){
 	TIM3->CR1 &= ~TIM_CR1_CEN;
 	TIM2->CR1 &= ~TIM_CR1_CEN;
 	TIM6->CR1 &= ~TIM_CR1_CEN;
-	TIM15->CR1 &= ~TIM_CR1_CEN;
 
 	while(1){
 		draw_gameover();
@@ -870,11 +802,13 @@ void start_game() {
 
 	init_wavetable();
 	init_timer6();
-	init_timer15();
 	init_timer2();
 	init_timer3();
 	while (!isgameover) {
 		lcd_display_score(score);
+		if(curheight >= 50){
+			isgameover = 1;
+		}
 	}
 
 	gameover();

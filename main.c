@@ -33,7 +33,7 @@ int main(void)
     // wait for user input and display the title screen
     while (((GPIOA->IDR) & GPIO_IDR_8) != GPIO_IDR_8) {
     	draw_title();
-    	//draw_bird(rand() % 2 + 1);
+    	draw_bird(rand() % 2 + 1);
     	draw_background();
     	generate_image();
     }
