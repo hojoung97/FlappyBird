@@ -432,8 +432,6 @@ uint8_t c = 1;
 short score = 0;
 int offset = 0;
 #define RATE 100000
-#define N 1000
-short int wavetable[100];
 #define N 750
 short int wavetable[N];
 float notes[17] =
@@ -801,6 +799,7 @@ void start_game() {
 	clear_display();
 
 	init_wavetable();
+	init_timer15();
 	init_timer6();
 	init_timer2();
 	init_timer3();
