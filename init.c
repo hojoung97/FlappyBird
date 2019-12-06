@@ -11,8 +11,8 @@ void init_gpio() {
 	//clock to GPIOA
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	GPIOA->MODER &= ~0x30000;
-	GPIOA->PUPDR &= ~0x30000;
-	GPIOA->PUPDR |= 0x20000;
+	//GPIOA->PUPDR &= ~0x30000;
+	//GPIOA->PUPDR |= 0x20000;
 	//PA4 to analog mode for sound
 	GPIOA->MODER &= ~0x300;
 	GPIOA->MODER |= 0x300;
