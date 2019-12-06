@@ -32,12 +32,14 @@ void init_syscfg() {
 
 	EXTI->RTSR |= EXTI_RTSR_TR8;
 	EXTI->IMR |= EXTI_IMR_MR8;
+	NVIC_SetPriority(EXTI4_15_IRQn, 3);
 }
 
 void init_dac() {
 	RCC->APB1ENR |= RCC_APB1ENR_DACEN;
 	DAC->CR &= ~DAC_CR_BOFF1;
 	DAC->CR &= ~DAC_CR_EN1;
+	DAC->SWTRIGR |= DAC_SWTRIGR_SWTRIG1;
 	DAC->CR |= DAC_CR_TEN1;
 	DAC->CR |= DAC_CR_TSEL1;
 	DAC->CR |= DAC_CR_EN1;

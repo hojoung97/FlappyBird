@@ -495,6 +495,7 @@ int offset = 0;
 #define RATE 100000
 #define N 750
 short int wavetable[N];
+
 float notes[] =
 {      //  C5    C#      D       D#      E       F       F#      G       G#     A      A#      B
 		//523, 554.37, 587.33, 622.25, 659.26, 698.46, 739.99, 783.99, 830.61, 880, 932.33, 987.77
@@ -520,52 +521,84 @@ float notes[] =
 		2093, //C6
 		2349.32, //D6
 		1975.54,	 //B5*/
-		2637,
-		2637,
+		5274,
+		5274,
 		0,
-		2637,
+		5274,
 		0,
-		2093,
-		2637,
+		4186,
+		5274,
+		0,
+		6272,
+		0,
+		0,
 		0,
 		3136,
 		0,
 		0,
 		0,
-		1568,
+		4186,
 		0,
 		0,
-		0,
-		2093,
-		0,
-		0,
-		1568,
-		0,
-		0,
-		1319,
-		0,
-		0,
-		1760,
-		1976,
-		0,
-		1865,
-		1760,
-		0,
-		1568,
-		2637,
 		3136,
+		0,
+		0,
+		2638,
+		0,
+		0,
+		3520,
+		3952,
+		0,
+		3730,
 		3520,
 		0,
-		2794,
 		3136,
+		5274,
+		6272,
+		7040,
 		0,
-		2637,
+		5588,
+		6272,
 		0,
-		2093,
-		2349,
-		1976,
+		5274,
+		0,
+		4186, //C7
+		4698, //D7
+		3952, //B6
 		0,
 		0
+		/*
+		510,
+		0,
+		0,
+		380,
+		0,
+		0,
+		320,
+		0,
+		0,
+		440,
+		480,
+		0,
+		450,
+		430,
+		0,
+		380,
+		660,
+		760,
+		860,
+		0,
+		700,
+		760,
+		0,
+		660,
+		0,
+		520,
+		580,
+		480,
+		0,
+		0*/
+
 };
 
 short noteind = 0;
@@ -710,11 +743,12 @@ void draw_pipe(short index, short col) {
 void init_timer6(){
 	// clock to timer 6
 	RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
-	TIM6->CR1 &= ~TIM_CR1_CEN;
-	TIM6->PSC = 10 - 1;
-	TIM6->ARR = 100 - 1;
+	//TIM6->CR1 &= ~TIM_CR1_CEN;
+	TIM6->PSC = 50 - 1;
+	TIM6->ARR = 75 - 1;
 	TIM6->DIER |= TIM_DIER_UIE;
 	TIM6->CR1 |= TIM_CR1_CEN;
+	NVIC_SetPriority(TIM6_DAC_IRQn, 0);
 	NVIC->ISER[0] = 1 << TIM6_DAC_IRQn;
 }
 
@@ -743,22 +777,23 @@ void TIM6_DAC_IRQHandler(){
 
 void init_timer15(){
 	RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
-	TIM15->CR1 &= ~TIM_CR1_CEN;
-	TIM15->PSC = 240 - 1;
-	TIM15->ARR = 1000 - 1;
+	//TIM15->CR1 &= ~TIM_CR1_CEN;
+	TIM15->PSC = 4800 - 1;
+	TIM15->ARR = 1500 - 1;
 	TIM15->DIER |= TIM_DIER_UIE;
 	TIM15->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM15_IRQn;
+	NVIC_SetPriority(TIM15_IRQn, 1);
 }
 
 void TIM15_IRQHandler(){
 	TIM15->SR &= ~TIM_SR_UIF;
 
 	if(noteind >= sizeof(notes) / sizeof(notes[0])){
-		noteind = 0;
+		noteind = 16;
 	}
 
-	step = notes[noteind++] * N / 100000 * (1 << 16);
+	step = notes[noteind++] * N / 100000.0 * (1 << 16);
 }
 
 void init_timer2(){
@@ -772,6 +807,7 @@ void init_timer2(){
 	TIM2->DIER |= TIM_DIER_UIE;
 	TIM2->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = 1 << TIM2_IRQn;
+	NVIC_SetPriority(TIM2_IRQn, 3);
 }
 
 void TIM2_IRQHandler(){
@@ -798,13 +834,14 @@ void init_timer3(){
 	TIM3->CR1 |= 2 << 8;
 	TIM3->CR1 |= TIM_CR1_CEN;
 	NVIC->ISER[0] = (1 << TIM3_IRQn) | (1 << EXTI4_15_IRQn);
+	NVIC_SetPriority(TIM3_IRQn, 3);
 }
 
 void EXTI4_15_IRQHandler() {
 	short height = (short)sizeof(bird[2]) / sizeof(bird[2][0]);
 	short width = (short)sizeof(bird[2][0]) / sizeof(bird[2][0][0]);
 
-	curheight -= 4;
+	curheight -= 5;
 
 	/*
 	if(curheight >= ROW){
@@ -1119,7 +1156,7 @@ void EXTI4_15_IRQHandler() {
 		}
 	}*/
 
-	mask_canvas(curheight + 4, 20, height, width, bird[0]);
+	mask_canvas(curheight + 5, 20, height, width, bird[0]);
 	mask_canvas(curheight, 20, height, width, bird[2]);
 
 	EXTI->PR |= EXTI_PR_PR8;
@@ -1520,9 +1557,9 @@ void gameover(){
 void start_game() {
 	clear_display();
 
+	init_wavetable();
 	init_timer6();
 	init_timer15();
-	init_wavetable();
 	init_timer2();
 	init_timer3();
 
