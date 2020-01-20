@@ -6,6 +6,6 @@ What we built for the mini-project was a circuitry and code for a successful ‘
 
 # Components
 - LED Matrix(Model Number: 3649)
-- External computer speaker(Borrowed from Rick, model number not known)
+- External computer speaker
 - LCD Display(Model Number: CFAL1602C)
 - Microcontroller(Model Number: STM32F051R8T6)
