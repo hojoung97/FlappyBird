@@ -10,5 +10,5 @@ What we built for the mini-project was a circuitry and code for a successful ‘
 - LCD Display(Model Number: CFAL1602C)
 - Microcontroller(Model Number: STM32F051R8T6)
 
-# Short Demo
+# Demo
 ![demo](readme_images/flappyBird.gif)
